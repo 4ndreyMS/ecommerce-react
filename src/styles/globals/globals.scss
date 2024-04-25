@@ -1,0 +1,109 @@
+@import "variables";
+@import "colors";
+@import "functions";
+@import "mixins";
+@import "fontFamily";
+
+.wrapper {
+	max-width: rem(1250);
+	margin: auto;
+	padding: 1rem;
+
+	@include tablet() {
+		& {
+			padding: 1.5rem;
+		}
+	}
+	@include desktop() {
+		& {
+			padding: 1.5rem;
+		}
+	}
+}
+
+.active-btn {
+	background-color: $color-brown !important;
+	border-color: $color-brown;
+	color: #fff !important;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.button-unfilled {
+	background-color: #fff;
+	border-color: $color-brown;
+	border-radius: 0;
+	color: $color-brown;
+	padding: rem(10) rem(15);
+	border: 0.1rem solid $color-brown;
+
+	&:active,
+	&:hover {
+		filter: brightness(90%);
+		background-color: $color-brown;
+		border-color: $color-brown;
+		color: #fff;
+		transition: 0.4s;
+	}
+
+	@include tablet() {
+		& {
+			border: 0.2rem solid $color-brown;
+		}
+	}
+	@include desktop() {
+		& {
+			border: 0.2rem solid $color-brown;
+		}
+	}
+}
+
+.button-filled {
+	background-color: $color-brown;
+	border-color: $color-brown;
+	border-radius: 0;
+	color: #fff;
+	padding: rem(10) rem(15);
+	border: none;
+
+	&:active,
+	&:hover {
+		filter: brightness(90%);
+		background-color: $color-brown;
+		border-color: $color-brown;
+		color: #fff;
+		transition: 0.4s;
+	}
+}
+
+.button-filled-beige {
+	background-color: $color-beige;
+	border-color: $color-beige;
+	border-radius: 0;
+	color: #000;
+	padding: rem(10) rem(15);
+	border: none;
+
+	&:active,
+	&:hover {
+		background-color: $color-brown;
+		border-color: $color-brown;
+		color: #fff;
+		transition: 0.4s;
+	}
+}
+
+.semi-bold {
+	font-weight: 500;
+}
+
+.text-0 {
+	font-size: 0.8rem;
+}
+
+.checked {
+	color: orange;
+}
