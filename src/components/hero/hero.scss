@@ -1,7 +1,7 @@
 .hero {
 	&__container-bg {
 		display: flex;
-		background-image: url("/public/images/furniture-hero.png");
+		background-image: url("https://firebasestorage.googleapis.com/v0/b/test-login-react-f7ba0.appspot.com/o/furniture-hero.png?alt=media&token=0d30a48f-e12b-4c75-94b1-9e352d6aef38");
 		background-size: cover;
 		background-attachment: fixed;
 		min-height: rem(600);
@@ -28,7 +28,6 @@
 		background-color: $color-beige-transparency;
 		p {
 			max-width: rem(643);
-
 		}
 	}
 	&__banner-container {

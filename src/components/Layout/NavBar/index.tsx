@@ -11,7 +11,6 @@ import {
 	Button,
 	Image,
 } from "@nextui-org/react";
-import HomePage from "../../pages/home";
 import { Link } from "react-router-dom";
 
 const Nav = () => {

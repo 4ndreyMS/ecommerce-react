@@ -1,0 +1,27 @@
+.preview-products {
+	&__container {
+		padding-top: rem(56);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	&__title {
+		text-align: center;
+	}
+
+	&__filter-by-cont {
+		display: flex;
+		flex-direction: column;
+		& button {
+			border-radius: rem(10);
+			border: 0.1rem solid #8f704c;
+		}
+	}
+
+	&__filters-cont {
+		gap: 0.5rem;
+		display: flex;
+		flex-wrap: wrap;
+	}
+}
