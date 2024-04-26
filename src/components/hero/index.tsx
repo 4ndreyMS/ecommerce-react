@@ -11,7 +11,7 @@ const Hero = () => {
 						<h1 className="hero__banner-header font-medium">
 							Discover our collections
 						</h1>
-						<div className="flex flex-col gap-4">
+						<div className=" pt-2 flex flex-col gap-4">
 							<p>
 								Welcome to our online store, showcasing our latest furniture
 								collection. Our hero section presents high-quality images of our

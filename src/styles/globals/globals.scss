@@ -120,7 +120,17 @@ a {
 }
 
 h1 {
+	font-size: rem(26);
+		@include tablet() {
+		& {
+	font-size: rem(32);
+		}
+	}
+	@include desktop() {
+		& {
 	font-size: rem(40);
+		}
+	}
 }
 
 p {
