@@ -1,0 +1,65 @@
+.hero {
+	&__container-bg {
+		display: flex;
+		background-image: url("/public/images/furniture-hero.png");
+		background-size: cover;
+		background-attachment: fixed;
+		min-height: rem(600);
+		background-position: calc(21% - 3rem) center;
+		position: relative;
+
+		@include tablet() {
+			& {
+				display: flex;
+				background-position: center;
+			}
+		}
+		@include desktop() {
+			& {
+				background-position: center;
+				display: flex;
+			}
+		}
+	}
+
+	&__banner {
+		// position: fixed;
+		// bottom: 5rem;
+		background-color: $color-beige-transparency;
+		p {
+			max-width: rem(643);
+
+		}
+	}
+	&__banner-container {
+		max-width: rem(700);
+	}
+
+	&__banner-header {
+		color: $color-brown;
+	}
+
+	&__banner-button {
+		background-color: $color-brown;
+		border-color: $color-brown;
+		border-radius: 0;
+		color: #fff;
+
+		&:active,
+		&:hover {
+			filter: brightness(90%);
+			background-color: $color-brown;
+			border-color: $color-brown;
+
+			color: #fff;
+		}
+	}
+}
+
+.controls-item {
+	display: inline-block;
+}
+
+.btn {
+	margin: 1px;
+}

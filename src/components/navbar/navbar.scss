@@ -1,72 +1,8 @@
 .nav {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-color: rgba(255, 255, 255, 0.9);
-	z-index: 100;
-	&__container {
-		display: flex;
-		width: 100%;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-
-		@include tablet() {
-			& {
-				display: flex;
-				flex-direction: row;
-				gap: 6.5rem;
-				justify-content: space-between;
-			}
-		}
-		@include desktop() {
-			& {
-				display: flex;
-				flex-direction: row;
-				gap: 6.5rem;
-				justify-content: space-between;
-			}
-		}
-	}
-
-	&__menu {
-		display: flex;
-		gap: rem(16);
-		list-style-type: none;
-		margin: 0;
-		align-items: center;
-		padding-left: 0;
-		font-weight: 500;
-
-		@include tablet() {
-			& {
-				display: flex;
-			}
-		}
-		@include desktop() {
-			& {
-				display: flex;
-			}
-		}
-
-		& li a:hover,
-		li a:active {
-			transition: 0.4s;
-			color: $color-brown;
-		}
-	}
-
-	&__spacer {
-		display: none;
-		@include tablet() {
-			display: inline;
-		}
-		@include desktop() {
-			& {
-				width: 6.5rem;
-			}
-		}
+	& li a:hover,
+	li a:active {
+		transition: 0.4s;
+		color: $color-brown;
 	}
 
 	&__logo-img,

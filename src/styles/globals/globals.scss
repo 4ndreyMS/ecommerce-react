@@ -5,7 +5,7 @@
 @import "fontFamily";
 
 .wrapper {
-	max-width: rem(1250);
+	max-width: rem(1024);
 	margin: auto;
 	padding: 1rem;
 
@@ -61,6 +61,17 @@ a {
 	}
 }
 
+.btn-filled-transparent {
+	background-color: $color-brown;
+	color: #fff;
+
+	&:active,
+	&:hover {
+		filter: brightness(90%) !important;
+		transition: 0.4s;
+	}
+}
+
 .button-filled {
 	background-color: $color-brown;
 	border-color: $color-brown;
@@ -106,4 +117,12 @@ a {
 
 .checked {
 	color: orange;
+}
+
+h1 {
+	font-size: rem(40);
+}
+
+p {
+	font-size: 1rem;
 }
