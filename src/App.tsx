@@ -5,7 +5,7 @@ import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
 import Nav from "./components/Layout/NavBar";
 
-function App() {
+function App() {	
 	return (
 		<>
 			<Nav />

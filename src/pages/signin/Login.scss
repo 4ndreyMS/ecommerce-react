@@ -1,0 +1,21 @@
+.login {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.bg-cont {
+	display: flex;
+	background-image: url("/images/login-pic.jpg");
+	background-size: cover;
+	// background-attachment: fixed;
+	// min-height: rem(600);
+	height: 90vh;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.login-banner-cont{
+
+}
+
+

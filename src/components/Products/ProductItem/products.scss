@@ -1,4 +1,14 @@
 .products {
+	&__img-cont {
+		position: relative;
+	}
+	&__chip {
+		position: absolute;
+		top: 0;
+		right: 0;
+		// color: $color-brown;
+	}
+
 	&__container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -18,6 +28,7 @@
 
 	&__card {
 		transition: transform 0.2s;
+		position: relative;
 
 		&:hover,
 		&:active {
