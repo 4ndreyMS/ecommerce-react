@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Hero from "../../components/Hero";
 import PreviewProducts from "../../components/Products/PreviewProducts";
 import Footer from "../../components/Layout/Footer";
-import { loginState } from "../../states/loginState";
-import { useRecoilState } from "recoil";
+import { useLocation } from "react-router-dom";
+
+export const scrollToSection = (sectionId: string) => {
+	const targetElement = document.getElementById(sectionId);
+	if (targetElement) {
+		targetElement.scrollIntoView({ behavior: "smooth" });
+	}
+};
+
 const HomePage = () => {
-	const [user] = useRecoilState(loginState);
+	const location = useLocation();
+
+	useEffect(() => {
+		if (location.hash) {
+			const sectionId = location.hash.slice(1); // Remove the '#' character
+			scrollToSection(sectionId);
+		}
+	}, [location.hash]);
 
 	return (
 		<>
 			<Hero />
-			<h1>{Object.keys(user).length > 0 ? user.user.email : "no data"}</h1>
 			<PreviewProducts />
 			<Footer />
 		</>

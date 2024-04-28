@@ -3,11 +3,12 @@ import { useFormik } from "formik";
 import { Input, Button, Card, CardBody } from "@nextui-org/react";
 import * as Yup from "yup";
 import "./Login.scss";
-import { auth } from "../../service/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useRecoilState } from "recoil";
+import { auth, db } from "../../service/firebase";
 import { loginState } from "../../states/loginState";
 import { IUserCredentials } from "../../models/IUserCredentials";
+import { useNavigate } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useRecoilState } from "recoil";
 
 //yup for form validations
 const LoginSchema = Yup.object().shape({
@@ -20,20 +21,33 @@ const LoginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-	const [, setUser] = useRecoilState(loginState);
+	const navigate = useNavigate();
+	const [, setGlobalUser] = useRecoilState(loginState);
 	const [error, setError] = useState("");
+	// const navigate = useNavigate();
 
-	// this function do the login with firebase
-	const login = (user: IUserCredentials) => {
-		signInWithEmailAndPassword(auth, user.email, user.password)
-			.then((userCredential) => {
-				console.log(userCredential);
-				setUser(userCredential);
-				setError("");
-			})
-			.catch(() => {
-				setError("Faild to login");
+	const login = async (user: IUserCredentials) => {
+		const q = query(
+			collection(db, "userList"),
+			where("email", "==", user.email),
+			where("password", "==", user.password)
+		);
+
+		const querySnapshot = await getDocs(q);
+		console.log("data", querySnapshot);
+
+		if (querySnapshot.size > 0) {
+			querySnapshot.forEach((doc) => {
+				// doc.data() is never undefined for query doc snapshots
+				console.log(doc.id, " => ", doc.data());
+				setGlobalUser(doc.data());
+				navigate("/", { replace: true });
 			});
+		} else {
+			setError(
+				"Invalid username or password. Please check your credentials and try again."
+			);
+		}
 	};
 
 	const formik = useFormik({
@@ -44,12 +58,12 @@ const LoginForm = () => {
 		validationSchema: LoginSchema,
 		onSubmit: (values) => {
 			//get user credentials
-			const user: IUserCredentials = {
+			const formUser: IUserCredentials = {
 				email: values.email,
 				password: values.password,
 			};
-			// execute the login
-			login(user);
+
+			login(formUser);
 		},
 	});
 
@@ -59,10 +73,14 @@ const LoginForm = () => {
 			<div className="login-cont">
 				<Card radius="sm" className="w-full max-w-[25rem] h-full max-h-[25rem]">
 					<CardBody>
-						<div className="login__intro-cont">
+						<div className="login__intro-cont flex flex-col items-center">
 							<h1>Welcome Back</h1>
-							<p className={error !== "" ? "text-danger" : ""}>
-								{error === "" ? introMessage : error}
+							<p
+								className={`w-full max-w-[20rem] ${
+									error !== "" ? "text-danger" : ""
+								}`}
+							>
+								{error ? error : introMessage}
 							</p>
 						</div>
 

@@ -9,12 +9,15 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	Button,
-	Image,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { loginState } from "../../../states/loginState";
+import { isEmptyObject } from "../../../utils/objectValidations";
 
 const Nav = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+	const [loggedUser, setLoggedUSer] = useRecoilState(loginState);
 
 	return (
 		<Navbar className="nav" onMenuOpenChange={setIsMenuOpen}>
@@ -48,7 +51,7 @@ const Nav = () => {
 						className="font-medium"
 						aria-label="Redirection to about"
 						color="foreground"
-						to="/about"
+						to="/#about"
 					>
 						About
 					</Link>
@@ -58,34 +61,52 @@ const Nav = () => {
 						className="font-medium"
 						aria-label="Redirection to product list"
 						color="foreground"
-						to="/products-list"
+						to="/products"
 					>
 						Products
 					</Link>
 				</NavbarItem>
 			</NavbarContent>
+
 			<NavbarContent justify="end">
-				<NavbarItem>
-					<Button
-						as={Link}
-						color="default"
-						to="signin"
-						variant="flat"
-						className="font-medium"
-					>
-						Login
-					</Button>
-				</NavbarItem>
-				<NavbarItem className="hidden lg:flex">
-					<Link
-						aria-label="Redirection to sign up"
-						color="primary"
-						to="signup"
-						className="font-medium"
-					>
-						Sign Up
-					</Link>
-				</NavbarItem>
+				{!isEmptyObject(loggedUser) ? (
+					<NavbarItem>
+						<Button
+							color="default"
+							variant="flat"
+							className="font-medium"
+							onClick={() => {
+								setLoggedUSer({});
+							}}
+						>
+							LogOut
+						</Button>
+					</NavbarItem>
+				) : (
+					<>
+						<NavbarItem>
+							<Button
+								as={Link}
+								color="default"
+								to="signin"
+								variant="flat"
+								className="font-medium"
+							>
+								Login
+							</Button>
+						</NavbarItem>
+						<NavbarItem className="hidden lg:flex">
+							<Link
+								aria-label="Redirection to sign up"
+								color="primary"
+								to="signup"
+								className="font-medium"
+							>
+								Sign Up
+							</Link>
+						</NavbarItem>
+					</>
+				)}
 			</NavbarContent>
 
 			{/* The mobile menu starts here */}
