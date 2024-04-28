@@ -2,7 +2,7 @@ import React from "react";
 import { IProduct } from "../../../models/IProduct";
 import "./products.scss";
 import { Chip } from "@nextui-org/react";
-import { fillData } from "../../../service/product-list-serice";
+import { fillData } from "../../../service/ProductListService";
 import { Link } from "react-router-dom";
 const ProductItem: React.FC<{ productInfo: IProduct }> = ({ productInfo }) => {
 	return (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./PreviewProducts.scss";
 import { IProduct } from "../../../models/IProduct";
 import axios from "axios";
-import { getAllProducts } from "../../../service/product-list-serice";
+import { getAllProducts } from "../../../service/ProductListService";
 import ProductItem from "../ProductItem";
 import "./PreviewProducts.scss";
 
@@ -15,7 +15,9 @@ const PreviewProducts = () => {
 	return (
 		<div className="preview-products">
 			<div className="preview-products__container">
-				<h2 className="preview-products__title">Our top products</h2>
+				<h2 className="preview-products__title font-medium">
+					Our top products
+				</h2>
 
 				{producstList.length < 0 && <p>Loading ....</p>}
 

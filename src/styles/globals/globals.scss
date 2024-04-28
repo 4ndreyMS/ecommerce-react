@@ -120,15 +120,30 @@ a {
 }
 
 h1 {
-	font-size: rem(26);
-		@include tablet() {
+	font-size: calc(1.375rem + 1.5vw);
+
+	@include tablet() {
 		& {
-	font-size: rem(32);
+			font-size: 2.5rem;
 		}
 	}
 	@include desktop() {
 		& {
-	font-size: rem(40);
+			font-size: 2.5rem;
+		}
+	}
+}
+
+h2 {
+	font-size: calc(1.325rem + 0.9vw);
+	@include tablet() {
+		& {
+			font-size: 2rem;
+		}
+	}
+	@include desktop() {
+		& {
+			font-size: 2rem;
 		}
 	}
 }
@@ -137,13 +152,20 @@ p {
 	font-size: 1rem;
 }
 
-
-
-.\!border-danger{
-	border-color: #D60000 !important;
+.\!border-danger {
+	border-color: #d60000 !important;
 }
 
-.\!text-danger{
-	color: #D60000 !important ;
+.\!text-danger {
+	color: #d60000 !important ;
+}
 
+html {
+	/* To make use of full height of page*/
+	min-height: 100%;
+	margin: 0;
+}
+body {
+	min-height: 100%;
+	margin: 0;
 }
