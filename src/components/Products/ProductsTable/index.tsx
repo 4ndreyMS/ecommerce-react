@@ -4,16 +4,23 @@ import "../PreviewProducts/PreviewProducts.scss";
 import { IProduct } from "../../../models/IProduct";
 import ProductItem from "../ProductItem";
 import ProductsBanner from "../../Banners/ProductsBanner";
+import FilterBy from "./FilterBy";
+import { useRecoilState } from "recoil";
+import { unMutableProductsState } from "../../../states/filteredProductsState";
 
-const ProducsTable: React.FC<{ paginatedProducts: IProduct[] }> = ({
-	paginatedProducts,
-}) => {
+const ProducsTable: React.FC<{
+	//if the pagination calls this component the data is paginated
+	paginatedItems: IProduct[];
+}> = ({ paginatedItems }) => {
+	const [allItems] = useRecoilState(unMutableProductsState);
 	return (
 		<section className="main-section">
 			<ProductsBanner />
+			{/* send the unmutable global list */}
+			<FilterBy unmutableProdList={allItems} />
 			<div className="products__container wrapper">
-				{paginatedProducts &&
-					paginatedProducts.map((product, i) => (
+				{paginatedItems &&
+					paginatedItems.map((product, i) => (
 						<ProductItem
 							showFeatured={false}
 							key={`item-${i}`}

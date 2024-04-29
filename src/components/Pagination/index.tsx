@@ -6,7 +6,9 @@ interface PaginationProps {
 	itemsPerPage: number; //the amount of items per page
 	items: IProduct[]; //the data
 	//the child to render and the proprs to assign
-	component: React.ComponentType<{ paginatedProducts: IProduct[] }>;
+	component: React.ComponentType<{
+		paginatedItems: IProduct[];
+	}>;
 }
 
 //this component do the pagination an receive three params
@@ -35,7 +37,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
 	return (
 		<>
-			<InnerComponent paginatedProducts={currentItems} />
+			<InnerComponent paginatedItems={currentItems} />
 			<ReactPaginate
 				breakLabel="..."
 				nextLabel="next >"
