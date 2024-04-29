@@ -25,7 +25,6 @@ const HomePage = () => {
 		<>
 			<Hero />
 			<PreviewProducts />
-			<Footer />
 		</>
 	);
 };

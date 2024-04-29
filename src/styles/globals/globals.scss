@@ -90,10 +90,11 @@ a {
 	}
 }
 
-.button-filled-beige {
+.button-filled-beige,
+.pagination-container li {
 	background-color: $color-beige;
 	border-color: $color-beige;
-	border-radius: 0;
+	border-radius: (10px);
 	color: #000;
 	padding: rem(10) rem(15);
 	border: none;
