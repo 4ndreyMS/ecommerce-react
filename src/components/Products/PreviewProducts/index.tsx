@@ -5,6 +5,7 @@ import axios from "axios";
 import { getAllProducts } from "../../../service/ProductListService";
 import ProductItem from "../ProductItem";
 import "./PreviewProducts.scss";
+import { Link } from "react-router-dom";
 
 const PreviewProducts = () => {
 	const [producstList, setProductList] = useState<IProduct[]>([]);
@@ -25,18 +26,22 @@ const PreviewProducts = () => {
 					{producstList.map((item: IProduct, i: number) => {
 						return (
 							item.isFeatured && (
-								<ProductItem key={"item" + i} productInfo={item} />
+								<ProductItem
+									key={"item" + i}
+									showFeatured={true}
+									productInfo={item}
+								/>
 							)
 						);
 					})}
 				</div>
-				<a
+				<Link
 					aria-label="Show more products"
 					className="button-unfilled semi-bold"
-					href="/products"
+					to={"/products"}
 				>
 					Show all
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

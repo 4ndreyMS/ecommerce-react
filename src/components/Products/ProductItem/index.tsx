@@ -4,7 +4,16 @@ import "./products.scss";
 import { Chip } from "@nextui-org/react";
 import { fillData } from "../../../service/ProductListService";
 import { Link } from "react-router-dom";
-const ProductItem: React.FC<{ productInfo: IProduct }> = ({ productInfo }) => {
+
+interface ProductItemProps {
+	productInfo: IProduct;
+	showFeatured: boolean;
+}
+
+const ProductItem: React.FC<ProductItemProps> = ({
+	productInfo,
+	showFeatured,
+}) => {
 	return (
 		<div className="products__card">
 			<Link to={`/product-details?id=${productInfo.id}`}>
@@ -15,7 +24,7 @@ const ProductItem: React.FC<{ productInfo: IProduct }> = ({ productInfo }) => {
 						alt={productInfo.name}
 					/>
 
-					{productInfo.isFeatured && (
+					{showFeatured && productInfo.isFeatured && (
 						<Chip
 							className="products__chip"
 							variant="faded"
