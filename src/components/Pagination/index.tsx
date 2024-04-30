@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { IProduct } from "../../models/IProduct";
+import "./Pagination.scss";
 
 interface PaginationProps {
 	itemsPerPage: number; //the amount of items per page
@@ -13,12 +14,12 @@ interface PaginationProps {
 
 //this component do the pagination an receive three params
 const Pagination: React.FC<PaginationProps> = ({
-	itemsPerPage,
-	items,
-	component: InnerComponent,
+	itemsPerPage, //amount of item per page
+	items, //data to paginate
+	component: InnerComponent, //component to render
 }) => {
 	const [itemOffset, setItemOffset] = useState(0);
-
+	const [currentPage, setCurrentPage] = useState(0);
 	//last item
 	const endOffset = itemOffset + itemsPerPage;
 	//spread the array of objects
@@ -28,17 +29,24 @@ const Pagination: React.FC<PaginationProps> = ({
 
 	// Invoke when user click to request another page.
 	const handlePageClick = (event) => {
+		console.log("clicked");
+		const selectedPage = event.selected;
 		const newOffset = (event.selected * itemsPerPage) % items.length;
+		setCurrentPage(selectedPage);
 		console.log(
 			`User requested page number ${event.selected}, which is offset ${newOffset}`
 		);
 		setItemOffset(newOffset);
 	};
 
+	console.log("rerender tbl", itemOffset);
+
 	return (
 		<>
 			<InnerComponent paginatedItems={currentItems} />
+
 			<ReactPaginate
+				className="pagination-container"
 				breakLabel="..."
 				nextLabel="next >"
 				onPageChange={handlePageClick}
@@ -46,6 +54,11 @@ const Pagination: React.FC<PaginationProps> = ({
 				pageCount={pageCount}
 				previousLabel="< previous"
 				renderOnZeroPageCount={null}
+				pageLinkClassName={"button-filled-beige"}
+				previousLinkClassName={"button-filled-beige"}
+				nextLinkClassName={"button-filled-beige"}
+				forcePage={currentPage}
+				// activeClassName={"active-btn"}
 			/>
 		</>
 	);

@@ -21,7 +21,8 @@
 	}
 }
 
-.active-btn {
+.active-btn,
+.selected a {
 	background-color: $color-brown !important;
 	border-color: $color-brown;
 	color: #fff !important;
@@ -90,8 +91,7 @@ a {
 	}
 }
 
-.button-filled-beige,
-.pagination-container li {
+.button-filled-beige {
 	background-color: $color-beige;
 	border-color: $color-beige;
 	border-radius: (10px);
