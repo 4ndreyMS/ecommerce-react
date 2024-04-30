@@ -7,15 +7,26 @@ import {
 	CardBody,
 	Checkbox,
 	CheckboxGroup,
+	Input,
 	Slider,
 	Tab,
 	Tabs,
 } from "@nextui-org/react";
 
-const FilterBy = ({ unmutableProdList }: { unmutableProdList: IProduct[] }) => {
+const FilterBy = ({
+	unmutableProdList,
+	highestPrice = 0,
+}: {
+	unmutableProdList: IProduct[];
+	highestPrice: number;
+}) => {
 	const [, setFilteredList] = useRecoilState(filteredProductsState);
 	const [inputValue, setInputValue] = useState("");
 	const [priceFilter, setPriceFilter] = useState(0);
+
+	useEffect(() => {
+		setPriceFilter(highestPrice);
+	}, [highestPrice]);
 
 	//handel the serch by name
 	const handleInputChange = (event) => {
@@ -47,14 +58,24 @@ const FilterBy = ({ unmutableProdList }: { unmutableProdList: IProduct[] }) => {
 			})
 			.filter((product: IProduct) => {
 				return categories.includes(product.category.toLowerCase());
-			});
+			})
+			.filter(
+				(item) => Number(item.price) >= 0 && Number(item.price) <= priceFilter
+			);
 
-		if (categories.length === 5 && inputValue === "") {
+		if (
+			categories.length === 5 &&
+			inputValue === "" &&
+			priceFilter === highestPrice
+		) {
 			filteredData = unmutableProdList;
 		}
 		setFilteredList(filteredData);
-	}, [categories, inputValue]);
 
+		console.log(filteredData);
+	}, [categories, inputValue, priceFilter]);
+
+	console.log(priceFilter);
 	return (
 		<div className="wrapper">
 			<div>
@@ -63,18 +84,18 @@ const FilterBy = ({ unmutableProdList }: { unmutableProdList: IProduct[] }) => {
 
 			<div className="flex w-full flex-col">
 				<Tabs aria-label="Options">
-					<Tab key="Product" title="Product Name">
+					<Tab key="Product" title="Product">
 						<Card>
 							<CardBody>
 								<div>
-									<input
+									<Input
 										type="text"
-										value={inputValue}
+										// variant={variant}
+										label="Product Name"
 										onChange={handleInputChange}
-										placeholder="Type something..."
+										value={inputValue}
+										placeholder="Enter your product name"
 									/>
-									{/* Display the value */}
-									<p>Input value: {inputValue}</p>
 								</div>
 							</CardBody>
 						</Card>
@@ -106,6 +127,7 @@ const FilterBy = ({ unmutableProdList }: { unmutableProdList: IProduct[] }) => {
 								<Slider
 									step={50}
 									maxValue={1500}
+									minValue={0}
 									label="Currency"
 									showTooltip={true}
 									formatOptions={{ style: "currency", currency: "USD" }}
@@ -113,7 +135,7 @@ const FilterBy = ({ unmutableProdList }: { unmutableProdList: IProduct[] }) => {
 										style: "currency",
 										currency: "USD",
 									}}
-									defaultValue={10}
+									defaultValue={priceFilter}
 									className="max-w-md"
 									// value={priceFilter}
 									onChange={setPriceFilter}

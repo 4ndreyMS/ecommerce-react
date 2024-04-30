@@ -13,11 +13,17 @@ const ProducsTable: React.FC<{
 	paginatedItems: IProduct[];
 }> = ({ paginatedItems }) => {
 	const [allItems] = useRecoilState(unMutableProductsState);
+
+	const highestPrice: number = Math.max(
+		...allItems.map((item: IProduct) => Number(item.price))
+	);
+
+	console.log(highestPrice);
 	return (
 		<section className="main-section">
 			<ProductsBanner />
 			{/* send the unmutable global list */}
-			<FilterBy unmutableProdList={allItems} />
+			<FilterBy highestPrice={highestPrice} unmutableProdList={allItems} />
 			<div className="products__container wrapper">
 				{paginatedItems &&
 					paginatedItems.map((product, i) => (

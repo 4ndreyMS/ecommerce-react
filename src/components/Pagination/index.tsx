@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { IProduct } from "../../models/IProduct";
 import "./Pagination.scss";
@@ -20,6 +20,11 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
 	const [itemOffset, setItemOffset] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
+
+	useEffect(() => {
+		setCurrentPage(0);
+		setItemOffset(0);
+	}, [items]);
 	//last item
 	const endOffset = itemOffset + itemsPerPage;
 	//spread the array of objects
