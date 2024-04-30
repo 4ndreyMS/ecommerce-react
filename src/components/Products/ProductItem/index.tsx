@@ -1,9 +1,11 @@
 import React from "react";
 import { IProduct } from "../../../models/IProduct";
 import "./products.scss";
-import { Chip } from "@nextui-org/react";
-import { fillData } from "../../../service/ProductListService";
+import { Button, Chip } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { AddICon } from "../../../assets/addIcon";
+import { useRecoilState } from "recoil";
+import { cartProductsState } from "../../../states/cartState";
 
 interface ProductItemProps {
 	productInfo: IProduct;
@@ -14,6 +16,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
 	productInfo,
 	showFeatured,
 }) => {
+	const [cartItems, setCartItems] = useRecoilState(cartProductsState);
+
 	return (
 		<div className="products__card">
 			<Link to={`/product-details?id=${productInfo.id}`}>
@@ -35,14 +39,37 @@ const ProductItem: React.FC<ProductItemProps> = ({
 						</Chip>
 					)}
 				</div>
-				<div className="products__card-description">
-					<p className="semi-bold">{productInfo.name}</p>
-					<p className="semi-bold text-0 products__card-description-type">
-						{productInfo.abstract}
-					</p>
-					<p className="semi-bold">${productInfo.price} </p>
-				</div>
 			</Link>
+
+			<div className="products__card-description">
+				<p className="semi-bold">{productInfo.name}</p>
+				<p className="semi-bold text-0 products__card-description-type">
+					{productInfo.abstract}
+				</p>
+				<div className="products__price-cont">
+					<div>
+						<p className="semi-bold">${productInfo.price} </p>
+					</div>
+
+					<Button
+						onClick={() => {
+							console.log(productInfo);
+							console.log(cartItems);
+
+							setCartItems([...cartItems, productInfo]);
+						}}
+						size="sm"
+						isIconOnly
+						radius="full"
+						color="warning"
+						variant="faded"
+						aria-label="Add to cart"
+						className="button-filled-brown-bg"
+					>
+						<AddICon />
+					</Button>
+				</div>
+			</div>
 		</div>
 	);
 };

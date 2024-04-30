@@ -1,4 +1,10 @@
 .products {
+	&__price-cont {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
 	&__img-cont {
 		position: relative;
 	}

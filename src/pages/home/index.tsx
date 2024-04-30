@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Hero from "../../components/Hero";
 import PreviewProducts from "../../components/Products/PreviewProducts";
-import Footer from "../../components/Layout/Footer";
 import { useLocation } from "react-router-dom";
 
 export const scrollToSection = (sectionId: string) => {

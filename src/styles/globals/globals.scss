@@ -108,6 +108,30 @@ a {
 	}
 }
 
+.button-filled-brown-bg {
+	background-color: $color-brown;
+	color: #fff;
+
+	color: #000;
+	border: none;
+
+	&:active,
+	&:hover {
+		background-color: $color-beige;
+		color: #000;
+
+		transition: 0.4s;
+	}
+
+	& svg {
+		max-width: 1rem;
+
+		path {
+			fill: color(#000) !important ;
+		}
+	}
+}
+
 .semi-bold {
 	font-weight: 500;
 }

@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../../states/loginState";
 import { isEmptyObject } from "../../../utils/objectValidations";
+import CartIBadge from "../../Products/Cart/CartIBadge";
 
 const Nav = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -69,6 +70,10 @@ const Nav = () => {
 			</NavbarContent>
 
 			<NavbarContent justify="end">
+				<NavbarItem>
+					<CartIBadge />
+				</NavbarItem>
+
 				{!isEmptyObject(loggedUser) ? (
 					<NavbarItem>
 						<Button
