@@ -22,10 +22,10 @@ const FilterBy = ({
 }) => {
 	const [, setFilteredList] = useRecoilState(filteredProductsState);
 	const [inputValue, setInputValue] = useState("");
-	const [priceFilter, setPriceFilter] = useState(0);
+	const [priceFilter, setPriceFilter] = useState([0, 0]);
 
 	useEffect(() => {
-		setPriceFilter(highestPrice);
+		setPriceFilter([0, highestPrice]);
 	}, [highestPrice]);
 
 	//handel the serch by name
@@ -60,13 +60,16 @@ const FilterBy = ({
 				return categories.includes(product.category.toLowerCase());
 			})
 			.filter(
-				(item) => Number(item.price) >= 0 && Number(item.price) <= priceFilter
+				(item) =>
+					Number(item.price) >= priceFilter[0] &&
+					Number(item.price) <= priceFilter[1]
 			);
 
 		if (
 			categories.length === 5 &&
 			inputValue === "" &&
-			priceFilter === highestPrice
+			priceFilter[1] === highestPrice &&
+			priceFilter[0] === 0
 		) {
 			filteredData = unmutableProdList;
 		}
@@ -126,21 +129,20 @@ const FilterBy = ({
 							<CardBody>
 								<Slider
 									step={50}
-									maxValue={1500}
+									maxValue={highestPrice}
 									minValue={0}
-									label="Currency"
+									label="Select a budget"
 									showTooltip={true}
 									formatOptions={{ style: "currency", currency: "USD" }}
 									tooltipValueFormatOptions={{
 										style: "currency",
 										currency: "USD",
 									}}
-									defaultValue={priceFilter}
+									// defaultValue={priceFilter[1]}
 									className="max-w-md"
-									// value={priceFilter}
+									value={priceFilter}
 									onChange={setPriceFilter}
 								/>
-								<p>{priceFilter}</p>
 							</CardBody>
 						</Card>
 					</Tab>
