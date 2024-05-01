@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getAllProducts } from "../../service/ProductListService";
 import { IProduct } from "../../models/IProduct";
-import SimpleBanner from "../../components/Banners/ProductsBanner/SimpleBanner/intex";
 import "./product-details.scss";
 import ProductDetail from "../../components/Products/ProductDetail/ProductDetail";
 

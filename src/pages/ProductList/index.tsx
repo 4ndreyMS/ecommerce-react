@@ -10,6 +10,9 @@ import {
 	unMutableProductsState,
 } from "../../states/filteredProductsState";
 import FilterBy from "../../components/Products/ProductsTable/FilterBy";
+import ProductsBanner from "../../components/Banners/ProductsBanner";
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 const ProductList = () => {
 	//this value can change, is the paginated list
@@ -26,6 +29,30 @@ const ProductList = () => {
 
 	return (
 		<>
+			<ProductsBanner title="All products">
+				<Breadcrumbs size="lg">
+					<BreadcrumbItem>
+						<Link
+							color={"foreground"}
+							className="w-full font-normal"
+							to="/"
+							aria-label="Link to home"
+						>
+							Home
+						</Link>
+					</BreadcrumbItem>
+					<BreadcrumbItem>
+						<Link
+							color={"foreground"}
+							className="w-full font-medium"
+							to="/products"
+							aria-label="Link to all products"
+						>
+							All Products
+						</Link>
+					</BreadcrumbItem>
+				</Breadcrumbs>
+			</ProductsBanner>
 			<Pagination items={products} itemsPerPage={10} component={ProducsTable} />
 		</>
 	);

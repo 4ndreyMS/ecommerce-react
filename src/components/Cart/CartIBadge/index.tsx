@@ -2,7 +2,7 @@ import { Badge } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { CartIcon } from "./CartIcon";
 import { useRecoilState } from "recoil";
-import { cartProductsState } from "../../../../states/cartState";
+import { cartProductsState } from "../../../states/cartState";
 const CartIBadge = () => {
 	const [isInvisible, setIsInvisible] = useState(false);
 

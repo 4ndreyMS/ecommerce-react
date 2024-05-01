@@ -3,7 +3,6 @@ import "./products.scss";
 import "../PreviewProducts/PreviewProducts.scss";
 import { IProduct } from "../../../models/IProduct";
 import ProductItem from "../ProductItem";
-import ProductsBanner from "../../Banners/ProductsBanner";
 import FilterBy from "./FilterBy";
 import { useRecoilState } from "recoil";
 import { unMutableProductsState } from "../../../states/filteredProductsState";
@@ -21,7 +20,6 @@ const ProducsTable: React.FC<{
 	console.log(highestPrice);
 	return (
 		<section className="main-section">
-			<ProductsBanner />
 			{/* send the unmutable global list */}
 			<FilterBy highestPrice={highestPrice} unmutableProdList={allItems} />
 			<div className="products__container wrapper">

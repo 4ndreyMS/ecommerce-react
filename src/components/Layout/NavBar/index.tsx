@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../../states/loginState";
 import { isEmptyObject } from "../../../utils/objectValidations";
-import CartIBadge from "../../Products/Cart/CartIBadge";
+import CartIBadge from "../../Cart/CartIBadge";
 
 const Nav = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -71,7 +71,14 @@ const Nav = () => {
 
 			<NavbarContent justify="end">
 				<NavbarItem>
-					<CartIBadge />
+					<Link
+						color={"foreground"}
+						className="w-full font-medium"
+						to="/cart"
+						aria-label="Link to all products"
+					>
+						<CartIBadge />
+					</Link>
 				</NavbarItem>
 
 				{!isEmptyObject(loggedUser) ? (

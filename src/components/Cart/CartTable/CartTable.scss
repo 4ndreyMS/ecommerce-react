@@ -1,0 +1,41 @@
+.cart-item {
+	&__image {
+		max-width: rem(100);
+	}
+	&__info-cont {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		width: 100%;
+	}
+
+	&__amount-cont {
+		display: flex;
+		gap: 0.5rem;
+		// & button {
+		// 	width: rem(20);
+		// 	height: rem(20);
+		// 	background-color: #4caf50;
+		// 	border: none;
+		// 	border-radius: 50%;
+		// 	color: white;
+		// 	text-align: center;
+		// }
+	}
+}
+
+.amount-btn {
+	width: rem(23);
+	height: rem(23);
+	// min-height: none;
+	padding: 0;
+	border-radius: 50%;
+	background-color: $color-brown;
+	color: #fff;
+	min-width: 0;
+}
+
+.delete-btn {
+	& svg {
+		max-width: 1rem;
+	}
+}

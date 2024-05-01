@@ -7,4 +7,5 @@ export interface IProduct {
 	price: string;
 	isFeatured: boolean;
 	category: string;
+	itemAmount: number;
 }

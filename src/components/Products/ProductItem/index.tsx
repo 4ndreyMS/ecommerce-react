@@ -53,10 +53,18 @@ const ProductItem: React.FC<ProductItemProps> = ({
 
 					<Button
 						onClick={() => {
-							console.log(productInfo);
+							const amount = !productInfo.itemAmount
+								? 1
+								: productInfo.itemAmount + 1;
+							const updatedProductInfo = {
+								...productInfo,
+								itemAmount: amount,
+							};
+
+							console.log(updatedProductInfo);
 							console.log(cartItems);
 
-							setCartItems([...cartItems, productInfo]);
+							setCartItems([...cartItems, updatedProductInfo]);
 						}}
 						size="sm"
 						isIconOnly

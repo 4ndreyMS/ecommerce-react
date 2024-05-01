@@ -74,11 +74,8 @@ const FilterBy = ({
 			filteredData = unmutableProdList;
 		}
 		setFilteredList(filteredData);
-
-		console.log(filteredData);
 	}, [categories, inputValue, priceFilter]);
 
-	console.log(priceFilter);
 	return (
 		<div className="wrapper">
 			<div>
@@ -86,14 +83,15 @@ const FilterBy = ({
 			</div>
 
 			<div className="flex w-full flex-col">
-				<Tabs aria-label="Options">
+				<Tabs aria-label="Options" radius="none">
 					<Tab key="Product" title="Product">
-						<Card>
+						<Card radius="none">
 							<CardBody>
 								<div>
 									<Input
 										type="text"
 										// variant={variant}
+										radius="none"
 										label="Product Name"
 										onChange={handleInputChange}
 										value={inputValue}
@@ -104,7 +102,7 @@ const FilterBy = ({
 						</Card>
 					</Tab>
 					<Tab key="Categories" title="Categories">
-						<Card>
+						<Card radius="none">
 							<CardBody>
 								<CheckboxGroup
 									label="Select cities"
@@ -113,9 +111,9 @@ const FilterBy = ({
 									defaultValue={categories}
 									onValueChange={setCategories}
 								>
-									{categoriesCheck.map((category) => {
+									{categoriesCheck.map((category, i) => {
 										return (
-											<Checkbox value={category.toLowerCase()}>
+											<Checkbox key={"item" + i} value={category.toLowerCase()}>
 												{category}
 											</Checkbox>
 										);
@@ -125,7 +123,7 @@ const FilterBy = ({
 						</Card>
 					</Tab>
 					<Tab key="Price" title="Price">
-						<Card>
+						<Card radius="none">
 							<CardBody>
 								<Slider
 									step={50}
