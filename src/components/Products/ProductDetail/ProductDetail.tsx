@@ -1,6 +1,6 @@
 import React from "react";
 import { IProduct } from "../../../models/IProduct";
-import SimpleBanner from "../../Banners/ProductsBanner/SimpleBanner/intex";
+import SimpleBanner from "../../Banners/SimpleBanner/intex";
 
 const ProductDetail = ({ product }: { product: IProduct }) => {
 	console.log(product);

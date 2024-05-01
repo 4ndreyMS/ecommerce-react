@@ -1,14 +1,20 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "./banners.scss";
-const ProductsBanner = () => {
+
+interface BannerProps {
+	title: string;
+	children: ReactNode;
+}
+
+const BannerBgImage: React.FC<BannerProps> = ({ title, children }) => {
 	return (
 		<div className="banner-products">
 			<div className="banner-products__cont">
-				<h2>All products</h2>
-				<p>{"Home > All products"}</p>
+				<h2>{title}</h2>
+				{children}
 			</div>
 		</div>
 	);
 };
 
-export default ProductsBanner;
+export default BannerBgImage;

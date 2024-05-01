@@ -7,6 +7,7 @@ import Nav from "./components/Layout/NavBar";
 import ProductList from "./pages/ProductList";
 import Footer from "./components/Layout/Footer";
 import ProductDetails from "./pages/ProductDetails";
+import ProductCart from "./pages/ProductCart";
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 				<Route path="/#about" Component={HomePage}></Route>
 				<Route path="/signup" Component={SignUpPage}></Route>
 				<Route path="/product-details" Component={ProductDetails}></Route>
+				<Route path="/cart" Component={ProductCart}></Route>
 			</Routes>
 			<Footer />
 		</>
