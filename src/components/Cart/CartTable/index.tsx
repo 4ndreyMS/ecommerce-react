@@ -78,16 +78,19 @@ const CartTable: React.FC<CartTableProps> = ({ cartList }) => {
 					<Card radius="none" key={i + "item"}>
 						<CardBody>
 							<div className="cart-item flex gap-5">
-								<img
-									className="cart-item__image"
-									src={product.image}
-									alt={product.name}
-								/>
-								<div className="cart-item__info-cont items-center">
+								<div className="flex cart-item__img-cont ">
+									<img
+										className="cart-item__image"
+										src={product.image}
+										alt={product.name}
+									/>
 									<div>
 										<h3>{product.name}</h3>
 										<p>{product.abstract}</p>
 									</div>
+								</div>
+
+								<div className="cart-item__info-cont items-center">
 									<div className="cart-item__amount-cont">
 										<Button
 											size="sm"
@@ -109,6 +112,7 @@ const CartTable: React.FC<CartTableProps> = ({ cartList }) => {
 											+
 										</Button>
 									</div>
+
 									<p>${Number(product.price) * product.itemAmount}</p>
 									<button
 										className="delete-btn"

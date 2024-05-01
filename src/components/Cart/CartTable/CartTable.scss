@@ -1,11 +1,61 @@
 .cart-item {
+	display: flex;
+	flex-direction: column;
+
+	@include tablet() {
+		& {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	@include desktop() {
+		& {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
 	&__image {
 		max-width: rem(100);
 	}
 	&__info-cont {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
-		width: 100%;
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		justify-content: center;
+
+		@include tablet() {
+			& {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+			}
+		}
+		@include desktop() {
+			& {
+				background-position: center;
+				display: flex;
+			}
+		}
+
+		// display: grid;
+		// grid-template-columns: 1fr 1fr 1fr 1fr;
+		// width: 100%;
+	}
+
+	&__img-cont {
+		display: flex;
+		gap: 1rem;
+
+		@include tablet() {
+			& {
+				align-items: center;
+			}
+		}
+		@include desktop() {
+			& {
+				align-items: center;
+			}
+		}
 	}
 
 	&__amount-cont {
@@ -35,6 +85,7 @@
 }
 
 .delete-btn {
+	width: 1rem;
 	& svg {
 		max-width: 1rem;
 	}
