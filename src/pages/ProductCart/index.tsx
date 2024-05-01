@@ -1,10 +1,11 @@
 import React from "react";
 import ProductsBanner from "../../components/Banners/ProductsBanner";
-import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs, Divider } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import CartTable from "../../components/Cart/CartTable";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../states/cartState";
+import CartSummary from "../../components/Cart/CartSummary";
 
 const ProductCart = () => {
 	const [cartList] = useRecoilState(cartProductsState);
@@ -35,8 +36,9 @@ const ProductCart = () => {
 					</BreadcrumbItem>
 				</Breadcrumbs>
 			</ProductsBanner>
-			<main className="wrapper">
+			<main className="wrapper flex flex-col gap-4">
 				<CartTable cartList={cartList} />
+				<CartSummary />
 			</main>
 		</div>
 	);

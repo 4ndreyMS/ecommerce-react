@@ -6,6 +6,8 @@ import "./CartTable.scss";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../../states/cartState";
 import { DeleteIcon } from "../../../assets/deleteIcon";
+import { count } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 interface CartTableProps {
 	cartList: IProduct[];
@@ -15,35 +17,63 @@ const CartTable: React.FC<CartTableProps> = ({ cartList }) => {
 	const [cart, setCartItems] = useRecoilState(cartProductsState);
 
 	const handleIncrease = (itemToIncrease: IProduct) => {
-		setCartItems(
-			cart.map((item: IProduct) =>
-				item.id === itemToIncrease.id
-					? { ...item, itemAmount: item.itemAmount + 1 }
-					: item
-			)
+		const updatedItems = cart.items.map((item: IProduct) =>
+			item.id === itemToIncrease.id
+				? { ...item, itemAmount: item.itemAmount + 1 }
+				: item
 		);
+		setCartItems({ count: cart.count + 1, items: updatedItems });
 	};
 
 	const handleDecrease = (itemToDecrease) => {
-		setCartItems(
-			cart.map((item: IProduct) =>
-				item === itemToDecrease
-					? {
-							...item,
-							itemAmount: item.itemAmount > 1 ? item.itemAmount - 1 : 1,
-					  }
-					: item
-			)
+		const updatedItems = cart.items.map((item: IProduct) =>
+			item === itemToDecrease
+				? {
+						...item,
+						itemAmount: item.itemAmount > 1 ? item.itemAmount - 1 : 1,
+				  }
+				: item
+		);
+		//in iterate over item obtaining the total
+		const updCount = getTotalProdItemsReduce(updatedItems);
+
+		setCartItems({ count: updCount, items: updatedItems });
+	};
+
+	const getTotalProdItemsReduce = (list) => {
+		return list.reduce(
+			(total: number, item: IProduct) => total + item.itemAmount,
+			0
 		);
 	};
 
 	const handleDelete = (itemToDelete) => {
-		setCartItems(cart.filter((item) => item !== itemToDelete));
+		const updatedList = cart.items.filter(
+			(item: IProduct) => item !== itemToDelete
+		);
+
+		setCartItems({
+			count: getTotalProdItemsReduce(updatedList),
+			items: updatedList,
+		});
 	};
 
 	return (
 		<div className="flex flex-col gap-4">
-			{cart.map((product: IProduct, i: number) => {
+			{cart.items.length < 1 && (
+				<Card radius="none">
+					<CardBody>
+						<h2>Your cart is empty</h2>
+						<p>
+							View more products{" "}
+							<Link className="txt-color-brown" to={"/products"}>
+								here
+							</Link>
+						</p>
+					</CardBody>
+				</Card>
+			)}
+			{cart.items.map((product: IProduct, i: number) => {
 				return (
 					<Card radius="none" key={i + "item"}>
 						<CardBody>

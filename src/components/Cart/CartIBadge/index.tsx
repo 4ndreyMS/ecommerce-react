@@ -9,7 +9,7 @@ const CartIBadge = () => {
 	const [cartItem] = useRecoilState(cartProductsState);
 
 	useEffect(() => {
-		if (cartItem.length === 0) {
+		if (cartItem.count === 0 || Number.isNaN(cartItem.count)) {
 			setIsInvisible(true);
 		} else {
 			setIsInvisible(false);
@@ -18,7 +18,7 @@ const CartIBadge = () => {
 	return (
 		<Badge
 			color="danger"
-			content={cartItem.length}
+			content={cartItem.count}
 			isInvisible={isInvisible}
 			shape="circle"
 		>

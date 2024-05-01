@@ -56,6 +56,8 @@ const ProductItem: React.FC<ProductItemProps> = ({
 							const amount = !productInfo.itemAmount
 								? 1
 								: productInfo.itemAmount + 1;
+
+							//update sigle product amount
 							const updatedProductInfo = {
 								...productInfo,
 								itemAmount: amount,
@@ -63,8 +65,17 @@ const ProductItem: React.FC<ProductItemProps> = ({
 
 							console.log(updatedProductInfo);
 							console.log(cartItems);
+							//insert the updated product
+							// { ...oldState, items: [...oldState.items, item] }
+							const totalItemAmount = Number.isNaN(cartItems.count)
+								? 1
+								: cartItems.count + 1;
+							setCartItems({
+								count: totalItemAmount,
+								items: [...cartItems.items, updatedProductInfo],
+							});
 
-							setCartItems([...cartItems, updatedProductInfo]);
+							console.log(cartItems);
 						}}
 						size="sm"
 						isIconOnly
