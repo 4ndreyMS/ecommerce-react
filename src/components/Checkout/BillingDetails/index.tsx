@@ -21,10 +21,11 @@ const BillingDetails = () => {
 					<AddressForm />
 				</AccordionItem>
 
-				<AccordionItem key="3" aria-label="Accordion 2" title="Accordion 2">
-					{defaultContent}
-				</AccordionItem>
-				<AccordionItem key="4" aria-label="Accordion 2" title="Accordion 2">
+				<AccordionItem
+					key="2"
+					aria-label="Credit Card Info"
+					title="Credit Card Info"
+				>
 					{defaultContent}
 				</AccordionItem>
 			</Accordion>

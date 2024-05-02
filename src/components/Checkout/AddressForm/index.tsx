@@ -3,14 +3,21 @@ import { useFormik } from "formik";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import * as Yup from "yup";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { checkOutState } from "../../../states/checkOutState";
 
 // Yup for form validations
 const AddressSchema = Yup.object().shape({
+	// country: Yup.string().required("Province is required"),
 	address1: Yup.string().required("Address 1 is required"),
 	address2: Yup.string(),
 	city: Yup.string().required("City is required"),
 	province: Yup.string().required("Province is required"),
-	zipCode: Yup.string().required("Zip Code is required"),
+	zipCode: Yup.string()
+		.required("Zip Code is required")
+		.test("isValidZipCode", "Invalid Zip Code", (zipCode) => {
+			return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
+		}),
 });
 
 const options = {
@@ -22,7 +29,14 @@ const options = {
 	},
 };
 
+interface IProvince {
+	name: string;
+}
+
 const AddressForm = () => {
+	const [checkOutdata, setCheckOutData] = useRecoilState(checkOutState);
+	const [provinceList, setProvinceList] = useState([]);
+
 	const formik = useFormik({
 		initialValues: {
 			address1: "",
@@ -30,28 +44,33 @@ const AddressForm = () => {
 			city: "",
 			province: "",
 			zipCode: "",
+			// country: "",
 		},
 		validationSchema: AddressSchema,
 		onSubmit: (values) => {
+			setCheckOutData(values);
 			// Handle form submission
-			console.log(values.province);
+			console.log(values);
+			alert(values);
 		},
 	});
-
-	const [provinceList, setProvinceList] = useState([]);
 
 	const runFunction = async () => {
 		if (provinceList.length === 0) {
 			try {
 				const response = axios.request(options);
 				setProvinceList((await response).data);
-				console.log((await response).data);
+				// console.log((await response).data);
 			} catch (error) {
 				console.error(error);
 			}
 		}
 	};
-	console.log(provinceList);
+
+	function isValidZipCode(zipCode) {
+		const data = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
+		return data;
+	}
 
 	useEffect(() => {
 		runFunction();
@@ -62,13 +81,6 @@ const AddressForm = () => {
 			onSubmit={formik.handleSubmit}
 			className="flex flex-col gap-4 address-form"
 		>
-			<button
-				onClick={() => {
-					runFunction();
-				}}
-			>
-				click hre
-			</button>
 			<Input
 				radius="none"
 				type="text"
@@ -123,12 +135,13 @@ const AddressForm = () => {
 				errorMessage={formik.errors.province && formik.errors.province}
 			>
 				{/* Replace with your actual options */}
-				<SelectItem key={"test-cr"} value={"test1"}>
-					test1
-				</SelectItem>
-				<SelectItem key={"test-us"} value={"test2"}>
-					test2
-				</SelectItem>
+				{provinceList.map((province: IProvince) => {
+					return (
+						<SelectItem key={province.name} value={province.name}>
+							{province.name}
+						</SelectItem>
+					);
+				})}
 			</Select>
 			<Input
 				className="border-brown"
@@ -145,7 +158,7 @@ const AddressForm = () => {
 				errorMessage={formik.errors.zipCode && formik.errors.zipCode}
 			/>
 			<Button radius="none" className="bg-brown text-white" type="submit">
-				Submit
+				Save
 			</Button>
 		</form>
 	);
