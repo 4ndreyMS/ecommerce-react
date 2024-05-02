@@ -63,10 +63,6 @@ const ProductItem: React.FC<ProductItemProps> = ({
 								itemAmount: amount,
 							};
 
-							console.log(updatedProductInfo);
-							console.log(cartItems);
-							//insert the updated product
-							// { ...oldState, items: [...oldState.items, item] }
 							const totalItemAmount = Number.isNaN(cartItems.count)
 								? 1
 								: cartItems.count + 1;
@@ -74,8 +70,6 @@ const ProductItem: React.FC<ProductItemProps> = ({
 								count: totalItemAmount,
 								items: [...cartItems.items, updatedProductInfo],
 							});
-
-							console.log(cartItems);
 						}}
 						size="sm"
 						isIconOnly

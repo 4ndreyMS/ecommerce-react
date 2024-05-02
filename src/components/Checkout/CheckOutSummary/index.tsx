@@ -5,9 +5,11 @@ import { cartProductsState } from "../../../states/cartState";
 import { Link } from "react-router-dom";
 import { IProduct } from "../../../models/IProduct";
 import "./CheckOutSummary.scss";
+import ModalCustom from "../../Modal";
 interface ProductTotal {
 	totalPrice: number;
 	totalItems: number;
+	totalPriceNoTax: number;
 }
 
 const CheckOutSummary = () => {
@@ -15,7 +17,9 @@ const CheckOutSummary = () => {
 	const [productTotal, setProductTotal] = useState<ProductTotal>({
 		totalItems: 0,
 		totalPrice: 0,
+		totalPriceNoTax: 0,
 	});
+
 	const shipping = 10;
 	const tax = 8;
 	useEffect(() => {
@@ -27,8 +31,13 @@ const CheckOutSummary = () => {
 			totalPrice += price;
 			totalItems += product.itemAmount;
 		});
-		setProductTotal({ totalPrice: totalPrice, totalItems: totalItems });
+		setProductTotal({
+			totalPrice: totalPrice,
+			totalItems: totalItems,
+			totalPriceNoTax: totalPrice + shipping,
+		});
 	}, [cartItems.items]);
+
 	return (
 		<Card className="bg-geige h-fit" radius="none">
 			<CardHeader>
@@ -52,11 +61,10 @@ const CheckOutSummary = () => {
 
 						<p>${shipping}</p>
 					</div>
-
 					<div>
 						<div className="item-info-cont">
 							<p>Total before tax</p>
-							<p>${productTotal.totalPrice}</p>
+							<p>${productTotal.totalPriceNoTax}</p>
 						</div>
 						<div className="item-info-cont">
 							<p>Estimated tax</p>
@@ -65,20 +73,9 @@ const CheckOutSummary = () => {
 					</div>
 					<div className="item-info-cont">
 						<p>Order total</p>
-						<p>${tax + shipping + productTotal.totalPrice}</p>
+						<p>${productTotal.totalPrice + tax + shipping}</p>
 					</div>
-
-					<Button
-						isDisabled={cartItems.count < 1}
-						as={Link}
-						aria-label="Prooced to checkout"
-						className="semi-bold btn-filled-transparent"
-						to="/checkout"
-						// variant="flat"
-						radius="none"
-					>
-						Proceed to pay
-					</Button>
+					<ModalCustom totalAmount={productTotal.totalPrice + tax + shipping} />
 				</div>
 			</CardBody>
 		</Card>

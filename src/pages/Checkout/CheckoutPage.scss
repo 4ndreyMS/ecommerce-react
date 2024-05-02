@@ -1,8 +1,18 @@
 .checkout-page {
 	display: grid;
 	// min-height: 63vh;
+	grid-template-columns: 1fr;
 
-	grid-template-columns: 1fr 1fr;
+	@include tablet() {
+		& {
+			grid-template-columns: 1fr;
+		}
+	}
+	@include desktop() {
+		& {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
 }
 .border-brown svg {
 	color: $color-brown;

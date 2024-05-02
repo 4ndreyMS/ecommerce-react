@@ -9,8 +9,6 @@ const PrivateRoutes = () => {
 	const [loggedUser] = useRecoilState(loginState);
 	const [cart] = useRecoilState(cartProductsState);
 
-	console.log(isEmptyObject(loggedUser));
-
 	if (isEmptyObject(loggedUser)) {
 		return <Navigate to="/signin" />;
 	} else if (cart.count < 1) {

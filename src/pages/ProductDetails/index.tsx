@@ -21,8 +21,6 @@ const ProductDetails = () => {
 		});
 	}, []);
 
-	console.log(product);
-	console.log(isLoading);
 	return (
 		<div>
 			{isLoading && (product === null || product === undefined) && (

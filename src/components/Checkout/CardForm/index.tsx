@@ -61,7 +61,6 @@ const CardForm = () => {
 	});
 
 	function getCardType(number) {
-		console.log(number);
 		// Visa
 		let re = new RegExp("^4");
 		if (number.match(re) != null) return "Visa";

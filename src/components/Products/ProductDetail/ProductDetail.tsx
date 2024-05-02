@@ -1,9 +1,13 @@
 import React from "react";
 import { IProduct } from "../../../models/IProduct";
 import SimpleBanner from "../../Banners/SimpleBanner/intex";
+import { Button } from "@nextui-org/react";
+import { useRecoilState } from "recoil";
+import { cartProductsState } from "../../../states/cartState";
 
 const ProductDetail = ({ product }: { product: IProduct }) => {
-	console.log(product);
+	const [cartItems, setCartItems] = useRecoilState(cartProductsState);
+
 	return (
 		<>
 			<div>
@@ -27,7 +31,32 @@ const ProductDetail = ({ product }: { product: IProduct }) => {
 							<span className="semi-bold">Description: </span>
 							{product.description}
 						</p>
-						<div className="product-detail__reviews-cont">
+						<Button
+							aria-label="Add to cart"
+							className="semi-bold button-unfilled max-w-[10rem]"
+							// variant="flat"
+							radius="none"
+							onClick={() => {
+								const amount = !product.itemAmount ? 1 : product.itemAmount + 1;
+
+								//update sigle product amount
+								const updatedProductInfo = {
+									...product,
+									itemAmount: amount,
+								};
+
+								const totalItemAmount = Number.isNaN(cartItems.count)
+									? 1
+									: cartItems.count + 1;
+								setCartItems({
+									count: totalItemAmount,
+									items: [...cartItems.items, updatedProductInfo],
+								});
+							}}
+						>
+							Add to cart
+						</Button>
+						{/* <div className="product-detail__reviews-cont">
 							<div>
 								<span className="fa fa-star checked"></span>
 								<span className="fa fa-star checked"></span>
@@ -35,7 +64,7 @@ const ProductDetail = ({ product }: { product: IProduct }) => {
 								<span className="fa fa-star"></span>
 								<span className="fa fa-star"></span>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

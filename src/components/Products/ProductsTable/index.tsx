@@ -17,7 +17,6 @@ const ProducsTable: React.FC<{
 		...allItems.map((item: IProduct) => Number(item.price))
 	);
 
-	console.log(highestPrice);
 	return (
 		<section className="main-section">
 			{/* send the unmutable global list */}

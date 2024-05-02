@@ -50,23 +50,8 @@ const AddressForm = () => {
 		validationSchema: AddressSchema,
 		onSubmit: (values) => {
 			setCheckOutData(values);
-			// Handle form submission
-			console.log(values);
-			alert(values);
 		},
 	});
-
-	// const runFunction = async () => {
-	// 	if (provinceList.length === 0) {
-	// 		try {
-	// 			const response = axios.request(options);
-	// 			setProvinceList((await response).data);
-	// 			// console.log((await response).data);
-	// 		} catch (error) {
-	// 			console.error(error);
-	// 		}
-	// 	}
-	// };
 
 	function isValidZipCode(zipCode) {
 		const data = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);

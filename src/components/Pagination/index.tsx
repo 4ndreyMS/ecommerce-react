@@ -34,17 +34,12 @@ const Pagination: React.FC<PaginationProps> = ({
 
 	// Invoke when user click to request another page.
 	const handlePageClick = (event) => {
-		console.log("clicked");
 		const selectedPage = event.selected;
 		const newOffset = (event.selected * itemsPerPage) % items.length;
 		setCurrentPage(selectedPage);
-		console.log(
-			`User requested page number ${event.selected}, which is offset ${newOffset}`
-		);
+
 		setItemOffset(newOffset);
 	};
-
-	console.log("rerender tbl", itemOffset);
 
 	return (
 		<>

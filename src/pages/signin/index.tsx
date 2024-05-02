@@ -34,7 +34,6 @@ const LoginForm = () => {
 		);
 
 		const querySnapshot = await getDocs(q);
-		console.log("data", querySnapshot);
 
 		if (querySnapshot.size > 0) {
 			querySnapshot.forEach((doc) => {
