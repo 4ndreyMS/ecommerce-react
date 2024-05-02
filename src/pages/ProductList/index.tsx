@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import ProducsTable from "../../components/Products/ProductsTable";
 import { IProduct } from "../../models/IProduct";
-import { getAllProducts } from "../../service/ProductListService";
+import { getAllProducts, getAllStates } from "../../service/ProductListService";
 import Pagination from "../../components/Pagination";
 import { useRecoilState } from "recoil";
 import {

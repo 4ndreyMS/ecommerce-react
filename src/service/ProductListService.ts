@@ -321,3 +321,10 @@ export const getAllProducts = async (): Promise<IProduct[]> => {
 	const response = await axios.get(baseProductUrl);
 	return Object.values(response.data);
 };
+
+export const getAllStates = async (): Promise<[]> => {
+	const response = await axios.get(
+		"https://test-login-react-f7ba0-default-rtdb.firebaseio.com/states.json"
+	);
+	return Object.values(response.data);
+};

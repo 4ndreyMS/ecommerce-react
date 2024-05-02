@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { checkOutState } from "../../../states/checkOutState";
+import { getAllStates } from "../../../service/ProductListService";
 
 // Yup for form validations
 const AddressSchema = Yup.object().shape({
@@ -55,17 +56,17 @@ const AddressForm = () => {
 		},
 	});
 
-	const runFunction = async () => {
-		if (provinceList.length === 0) {
-			try {
-				const response = axios.request(options);
-				setProvinceList((await response).data);
-				// console.log((await response).data);
-			} catch (error) {
-				console.error(error);
-			}
-		}
-	};
+	// const runFunction = async () => {
+	// 	if (provinceList.length === 0) {
+	// 		try {
+	// 			const response = axios.request(options);
+	// 			setProvinceList((await response).data);
+	// 			// console.log((await response).data);
+	// 		} catch (error) {
+	// 			console.error(error);
+	// 		}
+	// 	}
+	// };
 
 	function isValidZipCode(zipCode) {
 		const data = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
@@ -73,7 +74,9 @@ const AddressForm = () => {
 	}
 
 	useEffect(() => {
-		runFunction();
+		getAllStates().then((data) => {
+			setProvinceList(data[0]);
+		});
 	}, []);
 
 	return (
