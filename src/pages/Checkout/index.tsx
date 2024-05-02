@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const CheckOut = () => {
 	return (
 		<div>
-			<ProductsBanner title="All products">
+			<ProductsBanner title="Checkout">
 				<Breadcrumbs size="lg">
 					<BreadcrumbItem>
 						<Link
