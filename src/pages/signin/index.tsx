@@ -39,8 +39,7 @@ const LoginForm = () => {
 		if (querySnapshot.size > 0) {
 			querySnapshot.forEach((doc) => {
 				// doc.data() is never undefined for query doc snapshots
-				console.log(doc.id, " => ", doc.data());
-				setGlobalUser(doc.data());
+				setGlobalUser({ email: doc.data().email, jwt: doc.data().jwt });
 				navigate("/", { replace: true });
 			});
 		} else {

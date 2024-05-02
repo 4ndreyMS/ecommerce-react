@@ -8,12 +8,17 @@ import ProductList from "./pages/ProductList";
 import Footer from "./components/Layout/Footer";
 import ProductDetails from "./pages/ProductDetails";
 import ProductCart from "./pages/ProductCart";
+import CheckOut from "./pages/Checkout";
+import PrivateRoutes from "./utils/PrivateRoutes/PrivateRoutes";
 
 function App() {
 	return (
 		<>
 			<Nav />
 			<Routes>
+				<Route element={<PrivateRoutes />}>
+					<Route path="/checkout" Component={CheckOut}></Route>
+				</Route>
 				<Route path="/" Component={HomePage}></Route>
 				<Route path="/signin" Component={SignInPage}></Route>
 				<Route path="/products" Component={ProductList}></Route>

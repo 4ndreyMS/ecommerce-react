@@ -40,6 +40,7 @@ const CartSummary = () => {
 						{`(${productTotal.totalItems} products ): $ ${productTotal.totalPrice}`}
 					</p>
 					<Button
+						isDisabled={cartItems.count < 1}
 						as={Link}
 						aria-label="Prooced to checkout"
 						className="semi-bold btn-filled-transparent"
