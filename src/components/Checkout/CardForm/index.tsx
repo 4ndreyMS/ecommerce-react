@@ -2,9 +2,12 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { Input, Button } from "@nextui-org/react";
 import * as Yup from "yup";
+import { checkOutState } from "../../../states/checkOutState";
+import { useRecoilState } from "recoil";
 
 const CardForm = () => {
 	const [currentProvider, serCurrentProvider] = useState("");
+	const [checkOutData, setCheckOutData] = useRecoilState(checkOutState);
 
 	// Yup for form validations
 	const CardSchema = Yup.object().shape({
@@ -86,8 +89,10 @@ const CardForm = () => {
 		validationSchema: CardSchema,
 		onSubmit: (values) => {
 			// Handle form submission
-			console.log(values);
-			alert(JSON.stringify(values, null, 2));
+			setCheckOutData({
+				addressForm: checkOutData.addressForm,
+				cardForm: values,
+			});
 		},
 	});
 	const handleCardNumberChange = (event) => {
@@ -95,6 +100,8 @@ const CardForm = () => {
 		const cardNumber = event.target.value;
 		serCurrentProvider(getCardType(cardNumber));
 	};
+
+	console.log(checkOutData);
 
 	return (
 		<form

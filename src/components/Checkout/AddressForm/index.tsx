@@ -25,7 +25,7 @@ interface IProvince {
 }
 
 const AddressForm = () => {
-	const [, setCheckOutData] = useRecoilState(checkOutState);
+	const [checkOutData, setCheckOutData] = useRecoilState(checkOutState);
 	const [provinceList, setProvinceList] = useState([]);
 
 	const formik = useFormik({
@@ -39,7 +39,7 @@ const AddressForm = () => {
 		},
 		validationSchema: AddressSchema,
 		onSubmit: (values) => {
-			setCheckOutData(values);
+			setCheckOutData({ addressForm: values, cardForm: checkOutData.cardForm });
 		},
 	});
 
