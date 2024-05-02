@@ -101,8 +101,6 @@ const CardForm = () => {
 		serCurrentProvider(getCardType(cardNumber));
 	};
 
-	console.log(checkOutData);
-
 	return (
 		<form
 			onSubmit={formik.handleSubmit}

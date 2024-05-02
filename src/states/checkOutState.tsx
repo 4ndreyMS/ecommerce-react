@@ -6,5 +6,4 @@ import { atom } from "recoil";
 export const checkOutState = atom({
 	key: "checkOutState",
 	default: { addressForm: {}, cardForm: {} },
-	// effects_UNSTABLE: [persistAtom],
 });

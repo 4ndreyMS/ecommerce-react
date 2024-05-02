@@ -12,7 +12,6 @@ import "./Modal.scss";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../states/cartState";
 import { checkOutState } from "../../states/checkOutState";
-import { isEmptyObject } from "../../utils/objectValidations";
 
 interface ModalProps {
 	totalAmount: number;
@@ -44,7 +43,7 @@ const ModalCustom: React.FC<ModalProps> = ({ totalAmount }) => {
 		<>
 			<Button
 				isDisabled={
-					!(Object.keys(checkOutData.addressForm).length >= 4) &&
+					!(Object.keys(checkOutData.addressForm).length >= 4) ||
 					!(Object.keys(checkOutData.cardForm).length >= 4)
 				}
 				onPress={onOpen}
