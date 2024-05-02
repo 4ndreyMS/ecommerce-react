@@ -1,6 +1,7 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import React from "react";
 import AddressForm from "../AddressForm";
+import CardForm from "../CardForm";
 
 const BillingDetails = () => {
 	const defaultContent =
@@ -26,7 +27,7 @@ const BillingDetails = () => {
 					aria-label="Credit Card Info"
 					title="Credit Card Info"
 				>
-					{defaultContent}
+					<CardForm />
 				</AccordionItem>
 			</Accordion>
 		</div>
