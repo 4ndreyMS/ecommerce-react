@@ -181,7 +181,8 @@ p {
 	border-color: #d60000 !important;
 }
 
-.\!text-danger {
+.\!text-danger,
+.text-danger {
 	color: #d60000 !important ;
 }
 
@@ -202,7 +203,15 @@ html {
 .bg-geige {
 	background-color: $color-beige;
 }
+.bg-brown {
+	background-color: $color-brown;
+}
 
 .txt-color-brown {
 	color: $color-brown;
+}
+
+.border-brown,
+.border-brown div {
+	border-color: $color-brown;
 }

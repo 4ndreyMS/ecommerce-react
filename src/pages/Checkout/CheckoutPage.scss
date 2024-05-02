@@ -1,0 +1,9 @@
+.checkout-page {
+	display: grid;
+	min-height: 63vh;
+
+	grid-template-columns: 2fr 1fr;
+}
+.border-brown svg {
+	color: $color-brown;
+}
