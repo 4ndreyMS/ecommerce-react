@@ -120,11 +120,11 @@ const LoginForm = () => {
 							/>
 							<Button
 								type="submit"
-								radius="sm"
+								radius="none"
 								isDisabled={
 									formik.errors.password || formik.errors.email ? true : false
 								}
-								className="login__form-btn"
+								className="login__form-btn btn-filled-transparent"
 							>
 								Login
 							</Button>

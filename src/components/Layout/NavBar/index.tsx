@@ -107,16 +107,6 @@ const Nav = () => {
 								Login
 							</Button>
 						</NavbarItem>
-						<NavbarItem className="hidden lg:flex">
-							<Link
-								aria-label="Redirection to sign up"
-								color="primary"
-								to="signup"
-								className="font-medium"
-							>
-								Sign Up
-							</Link>
-						</NavbarItem>
 					</>
 				)}
 			</NavbarContent>
@@ -143,17 +133,6 @@ const Nav = () => {
 						aria-label="Redirection to login"
 					>
 						Login
-					</Link>
-				</NavbarMenuItem>
-				<NavbarMenuItem>
-					<Link
-						color={"foreground"}
-						className="w-full font-medium"
-						to="signup"
-						// size="lg"
-						aria-label="Redirection to sign up"
-					>
-						Sign Up
 					</Link>
 				</NavbarMenuItem>
 				<NavbarMenuItem>
