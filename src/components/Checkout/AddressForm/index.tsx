@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import * as Yup from "yup";
-import axios from "axios";
 import { useRecoilState } from "recoil";
 import { checkOutState } from "../../../states/checkOutState";
 import { getAllStates } from "../../../service/ProductListService";
@@ -21,21 +20,12 @@ const AddressSchema = Yup.object().shape({
 		}),
 });
 
-const options = {
-	method: "GET",
-	url: "https://us-states.p.rapidapi.com/basic",
-	headers: {
-		"X-RapidAPI-Key": "580d9de661mshd63804fbf968368p189c2bjsna11325c4fdbb",
-		"X-RapidAPI-Host": "us-states.p.rapidapi.com",
-	},
-};
-
 interface IProvince {
 	name: string;
 }
 
 const AddressForm = () => {
-	const [checkOutdata, setCheckOutData] = useRecoilState(checkOutState);
+	const [, setCheckOutData] = useRecoilState(checkOutState);
 	const [provinceList, setProvinceList] = useState([]);
 
 	const formik = useFormik({
@@ -52,11 +42,6 @@ const AddressForm = () => {
 			setCheckOutData(values);
 		},
 	});
-
-	function isValidZipCode(zipCode) {
-		const data = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
-		return data;
-	}
 
 	useEffect(() => {
 		getAllStates().then((data) => {

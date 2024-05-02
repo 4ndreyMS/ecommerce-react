@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { Input, Button, Card, CardBody } from "@nextui-org/react";
 import * as Yup from "yup";
 import "./Login.scss";
-import { auth, db } from "../../service/firebase";
+import { db } from "../../service/firebase";
 import { loginState } from "../../states/loginState";
 import { IUserCredentials } from "../../models/IUserCredentials";
 import { useNavigate } from "react-router-dom";

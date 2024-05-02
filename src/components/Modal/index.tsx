@@ -7,7 +7,7 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from "@nextui-org/react";
-import React, { ReactNode } from "react";
+import React from "react";
 import "./Modal.scss";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../states/cartState";

@@ -216,3 +216,8 @@ html {
 .border-brown div button {
 	border-color: $color-brown;
 }
+
+.after\:bg-secondary::after,
+.bg-primary {
+	background-color: $color-brown;
+}

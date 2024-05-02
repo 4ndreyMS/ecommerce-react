@@ -1,8 +1,6 @@
-import React from "react";
 import BillingDetails from "../../components/Checkout/BillingDetails";
 import CheckOutSummary from "../../components/Checkout/CheckOutSummary";
 import "./CheckoutPage.scss";
-import BannerBgImage from "../../components/Banners/ProductsBanner";
 import ProductsBanner from "../../components/Banners/ProductsBanner";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { Link } from "react-router-dom";

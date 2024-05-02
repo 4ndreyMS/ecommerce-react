@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./products.scss";
 import "../PreviewProducts/PreviewProducts.scss";
 import { IProduct } from "../../../models/IProduct";

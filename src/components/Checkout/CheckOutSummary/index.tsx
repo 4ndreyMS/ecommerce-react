@@ -1,8 +1,7 @@
-import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../../states/cartState";
-import { Link } from "react-router-dom";
 import { IProduct } from "../../../models/IProduct";
 import "./CheckOutSummary.scss";
 import ModalCustom from "../../Modal";

@@ -1,4 +1,3 @@
-import React from "react";
 import { IProduct } from "../../../models/IProduct";
 import SimpleBanner from "../../Banners/SimpleBanner/intex";
 import { Button } from "@nextui-org/react";
