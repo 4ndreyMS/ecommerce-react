@@ -21,6 +21,13 @@ const ProducsTable: React.FC<{
 		<section className="main-section">
 			{/* send the unmutable global list */}
 			<FilterBy highestPrice={highestPrice} unmutableProdList={allItems} />
+			{paginatedItems.length < 1 && (
+				<div className="wrapper">
+					<h2 className="w-full">
+						Sorry, we couldn’t find the product you’re looking for.
+					</h2>
+				</div>
+			)}
 			<div className="products__container wrapper">
 				{paginatedItems &&
 					paginatedItems.map((product, i) => (

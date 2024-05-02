@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { Input, Button } from "@nextui-org/react";
 import * as Yup from "yup";
@@ -60,7 +60,7 @@ const CardForm = () => {
 			.required("CVV is required"),
 	});
 
-	function getCardType(number) {
+	function getCardType(number: string) {
 		// Visa
 		let re = new RegExp("^4");
 		if (number.match(re) != null) return "Visa";
@@ -94,7 +94,6 @@ const CardForm = () => {
 		formik.handleChange(event);
 		const cardNumber = event.target.value;
 		serCurrentProvider(getCardType(cardNumber));
-		console.log(cardNumber);
 	};
 
 	return (
