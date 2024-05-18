@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { Input, Button, Card, CardBody } from "@nextui-org/react";
 import * as Yup from "yup";
@@ -9,6 +9,8 @@ import { IUserCredentials } from "../../models/IUserCredentials";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useRecoilState } from "recoil";
+import axios from "axios";
+import { IUserLogin } from "../../models/IUserLogin";
 
 //yup for form validations
 const LoginSchema = Yup.object().shape({
@@ -27,25 +29,30 @@ const LoginForm = () => {
 	// const navigate = useNavigate();
 
 	const login = async (user: IUserCredentials) => {
-		const q = query(
-			collection(db, "userList"),
-			where("email", "==", user.email),
-			where("password", "==", user.password)
-		);
-
-		const querySnapshot = await getDocs(q);
-
-		if (querySnapshot.size > 0) {
-			querySnapshot.forEach((doc) => {
-				// doc.data() is never undefined for query doc snapshots
-				setGlobalUser({ email: doc.data().email, jwt: doc.data().jwt });
-				navigate("/", { replace: true });
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		const userData: IUserLogin = {
+			email: user.email,
+			password: user.password,
+		};
+		axios
+			.post(baseURL + "/auth/login", userData) // Cambia la URL a tu endpoint de autenticación
+			.then((response) => {
+				console.log("Respuesta del servidor:", response.data.data.token);
+				const responseToken = response.data.data.token;
+				if (responseToken != undefined) {
+					setGlobalUser({ token: responseToken });
+					navigate("/", { replace: true });
+				} else {
+					setError(
+						"Invalid username or password. Please check your credentials and try again."
+					);
+				}
+			})
+			.catch(() => {
+				setError(
+					"Invalid username or password. Please check your credentials and try again."
+				);
 			});
-		} else {
-			setError(
-				"Invalid username or password. Please check your credentials and try again."
-			);
-		}
 	};
 
 	const formik = useFormik({

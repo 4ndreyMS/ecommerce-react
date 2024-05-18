@@ -87,11 +87,12 @@ const Nav = () => {
 							color="default"
 							variant="flat"
 							className="font-medium"
+							aria-label="Logout"
 							onClick={() => {
 								setLoggedUSer({});
 							}}
 						>
-							LogOut
+							Logout
 						</Button>
 					</NavbarItem>
 				) : (
