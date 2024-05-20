@@ -9,6 +9,7 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	Button,
+	Avatar,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -73,7 +74,7 @@ const Nav = () => {
 				<NavbarItem>
 					<Link
 						color={"foreground"}
-						className="w-full font-medium"
+						className="w-full font-medium flex align-center"
 						to="/cart"
 						aria-label="Link to all products"
 					>
@@ -82,19 +83,30 @@ const Nav = () => {
 				</NavbarItem>
 
 				{!isEmptyObject(loggedUser) ? (
-					<NavbarItem>
-						<Button
-							color="default"
-							variant="flat"
-							className="font-medium"
-							aria-label="Logout"
-							onClick={() => {
-								setLoggedUSer({});
-							}}
-						>
-							Logout
-						</Button>
-					</NavbarItem>
+					<>
+						<NavbarItem>
+							<Link to="/profile">
+								<Avatar
+									className="text-medium bg-brown text-white"
+									size="sm"
+									name="A"
+								/>
+							</Link>
+						</NavbarItem>
+						<NavbarItem>
+							<Button
+								color="default"
+								variant="flat"
+								className="font-medium"
+								aria-label="Logout"
+								onClick={() => {
+									setLoggedUSer({});
+								}}
+							>
+								Logout
+							</Button>
+						</NavbarItem>
+					</>
 				) : (
 					<>
 						<NavbarItem>
@@ -107,6 +119,16 @@ const Nav = () => {
 							>
 								Login
 							</Button>
+						</NavbarItem>
+						<NavbarItem>
+							<Link
+								color={"foreground"}
+								className="hidden lg:flex w-full font-medium"
+								to="/signup"
+								aria-label="Link to Sign up"
+							>
+								Sign up
+							</Link>
 						</NavbarItem>
 					</>
 				)}

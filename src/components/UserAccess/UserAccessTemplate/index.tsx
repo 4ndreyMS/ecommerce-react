@@ -1,8 +1,6 @@
-import { useFormik } from "formik";
 import { Card, CardBody } from "@nextui-org/react";
 
 import React, { ReactNode } from "react";
-import { Link } from "react-router-dom";
 
 interface ITemplateProps {
 	title: string;

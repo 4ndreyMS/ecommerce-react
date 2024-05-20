@@ -5,7 +5,6 @@ import { useRecoilState } from "recoil";
 import { loginState } from "../../../states/loginState";
 import axios from "axios";
 import { useFormik } from "formik";
-import { IUserCredentials } from "../../../models/IUserCredentials";
 import * as Yup from "yup";
 import { IUserLogin } from "../../../models/IUserLogin";
 
