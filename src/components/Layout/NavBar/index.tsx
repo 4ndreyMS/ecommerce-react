@@ -20,6 +20,7 @@ import CartIBadge from "../../Cart/CartIBadge";
 const Nav = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 	const [loggedUser, setLoggedUSer] = useRecoilState(loginState);
+	const [globalUser] = useRecoilState(loginState);
 
 	return (
 		<Navbar className="nav" onMenuOpenChange={setIsMenuOpen}>
@@ -89,7 +90,11 @@ const Nav = () => {
 								<Avatar
 									className="text-medium bg-brown text-white"
 									size="sm"
-									name="A"
+									name={
+										globalUser.fullName != undefined
+											? globalUser.fullName[0]
+											: "U"
+									}
 								/>
 							</Link>
 						</NavbarItem>

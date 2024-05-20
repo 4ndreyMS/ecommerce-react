@@ -32,10 +32,11 @@ const LoginForm = () => {
 		axios
 			.post(baseURL + "/auth/login", userData) // Cambia la URL a tu endpoint de autenticación
 			.then((response) => {
-				console.log("Respuesta del servidor:", response.data.data.token);
+				console.log("Respuesta del servidor:", response);
 				const responseToken = response.data.data.token;
+				const responseFullName = response.data.data.fullName;
 				if (responseToken != undefined) {
-					setGlobalUser({ token: responseToken });
+					setGlobalUser({ token: responseToken, fullName: responseFullName });
 					navigate("/", { replace: true });
 				} else {
 					setError(
