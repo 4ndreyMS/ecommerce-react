@@ -32,7 +32,6 @@ const SignupForm = () => {
 		axios
 			.post(baseURL + "/auth/signup", user) // Cambia la URL a tu endpoint de autenticación
 			.then((response) => {
-				console.log("Respuesta del servidor:", response);
 				const responseStatus = response.data.success;
 				if (responseStatus != undefined && responseStatus) {
 					navigate("/signin", { replace: false });
@@ -59,11 +58,8 @@ const SignupForm = () => {
 					errorMessage = error.message;
 				}
 
-				console.log(errorMessage);
 				setError(errorMessage);
 			});
-
-		console.log("submit", user);
 	};
 
 	const formik = useFormik({

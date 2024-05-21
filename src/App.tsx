@@ -10,6 +10,7 @@ import ProductDetails from "./pages/ProductDetails";
 import ProductCart from "./pages/ProductCart";
 import CheckOut from "./pages/Checkout";
 import PrivateRoutes from "./utils/PrivateRoutes/PrivateRoutes";
+import DashBoard from "./pages/Dashboard";
 
 function App() {
 	return (
@@ -26,6 +27,8 @@ function App() {
 				<Route path="/signup" Component={SignUpPage}></Route>
 				<Route path="/product-details" Component={ProductDetails}></Route>
 				<Route path="/cart" Component={ProductCart}></Route>
+				<Route path="/profile" Component={DashBoard}></Route>
+				<Route path="/dashboard" Component={DashBoard}></Route>
 			</Routes>
 			<Footer />
 		</>

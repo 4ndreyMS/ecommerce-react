@@ -27,18 +27,6 @@ const ModalCustom: React.FC<ModalProps> = ({ totalAmount }) => {
 		setCart({ count: 0, items: [] });
 	};
 
-	console.log(
-		Object.keys(checkOutData.addressForm).length >= 4 &&
-			Object.keys(checkOutData.cardForm).length >= 4
-	);
-
-	console.log(
-		checkOutData.addressForm,
-		checkOutData.cardForm
-		// Object.keys(checkOutData.addressForm).length >= 4 &&
-		// 	Object.keys(checkOutData.cardForm).length >= 4
-	);
-
 	return (
 		<>
 			<Button
