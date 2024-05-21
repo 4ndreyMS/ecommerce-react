@@ -6,6 +6,7 @@ export interface IProduct {
 	description: string;
 	price: string;
 	isFeatured: boolean;
+	isActive: boolean;
 	category: string;
 	itemAmount: number;
 }
