@@ -43,14 +43,6 @@ const Dashboard = () => {
 			</ProductsBanner>
 			<div className="dash-page">
 				<div className="wrapper flex gap-4 dash-page__cont">
-					{/* <NavDashboard
-						selectedSection={selectedSection}
-						setSelectedSection={setSelectedSection}
-					/>
-					{selectedSection.has(DashboardSectionsEnum.PRODUCTS.toString()) && (
-						<ProductManagement />
-					)} */}
-
 					<Tabs
 						className="bg-white tabs-cont"
 						aria-label="Options"

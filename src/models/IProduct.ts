@@ -19,8 +19,8 @@ export interface IProductSpring {
 	name: string;
 	description: string;
 	price: number;
-	isFeatured: boolean;
-	isActive: boolean;
+	featured: boolean;
+	active: boolean;
 	category: string;
 	summary: string;
 	stockQuantity: number;

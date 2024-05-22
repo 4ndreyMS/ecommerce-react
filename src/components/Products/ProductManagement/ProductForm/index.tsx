@@ -54,12 +54,12 @@ const ProductForm = () => {
 				name: values.title,
 				description: values.description,
 				category: values.category,
-				isFeatured: values.isFeatured,
+				featured: values.isFeatured,
 				stockQuantity: values.stock_amount,
 				price: values.price,
 				image: url,
 				summary: values.abstract,
-				isActive: values.isActive,
+				active: values.isActive,
 			};
 			// Handle form submission here
 			console.log(newProducts);

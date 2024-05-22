@@ -1,11 +1,20 @@
 import { Button, Input } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
 import ProducsTable from "../ProductsTable";
 import ProductManagementTable from "./ProductManagementTable";
+import { IProductSpring } from "../../../models/IProduct";
+import useGetApi from "../../../service/useGetApi";
+import { useRecoilState } from "recoil";
+import { loginState } from "../../../states/loginState";
 
 const ProductManagement = () => {
 	const [addEdit, setAddEdit] = useState(false);
+	const apiUrl = import.meta.env.VITE_BASE_API_URL + "/api/v1/product/getAll";
+	const [globalUser] = useRecoilState(loginState);
+
+	const { responseData, loading, error } = useGetApi(apiUrl, globalUser.token);
+
 	return (
 		<div className="">
 			{!addEdit && (
@@ -24,7 +33,7 @@ const ProductManagement = () => {
 							Add
 						</Button>
 					</div>
-					<ProductManagementTable />
+					<ProductManagementTable productList={responseData?.data} />
 				</div>
 			)}
 			{addEdit && (
