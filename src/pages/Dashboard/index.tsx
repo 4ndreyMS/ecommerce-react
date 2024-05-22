@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Dashboard.scss";
-import NavDashboard from "../../components/NavDashboard";
 import ProductsBanner from "../../components/Banners/ProductsBanner";
 import {
 	BreadcrumbItem,
@@ -52,7 +51,11 @@ const Dashboard = () => {
 						<ProductManagement />
 					)} */}
 
-					<Tabs className="bg-white" aria-label="Options" isVertical={true}>
+					<Tabs
+						className="bg-white tabs-cont"
+						aria-label="Options"
+						isVertical={true}
+					>
 						<Tab
 							className="w-full"
 							key={DashboardSectionsEnum.PROFILE}

@@ -14,7 +14,7 @@ import UploadWidget from "../../../UploadWidget";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../../../states/loginState";
 import axios from "axios";
-import { IProduct } from "../../../../models/IProduct";
+import { IProduct, IProductSpring } from "../../../../models/IProduct";
 
 const ProductSchema = Yup.object().shape({
 	title: Yup.string().required("Title is required"),
@@ -49,16 +49,16 @@ const ProductForm = () => {
 		},
 		validationSchema: ProductSchema,
 		onSubmit: (values) => {
-			const newProducts: IProduct = {
-				id: "",
+			const newProducts: IProductSpring = {
+				id: 0,
 				name: values.title,
 				description: values.description,
 				category: values.category,
 				isFeatured: values.isFeatured,
-				itemAmount: values.stock_amount,
-				price: values.price.toString(),
+				stockQuantity: values.stock_amount,
+				price: values.price,
 				image: url,
-				abstract: values.abstract,
+				summary: values.abstract,
 				isActive: values.isActive,
 			};
 			// Handle form submission here
