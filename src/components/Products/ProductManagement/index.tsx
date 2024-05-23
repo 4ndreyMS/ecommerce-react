@@ -1,7 +1,6 @@
 import { Button, Input } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
-import ProducsTable from "../ProductsTable";
 import ProductManagementTable from "./ProductManagementTable";
 import { IProductSpring } from "../../../models/IProduct";
 import useGetApi from "../../../service/useGetApi";

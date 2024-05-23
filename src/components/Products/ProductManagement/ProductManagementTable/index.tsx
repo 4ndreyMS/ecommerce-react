@@ -21,7 +21,7 @@ const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 					</div>
 					<div className="product-manage-table__info-cont items-center">
 						<p className="hidable">${product.price}</p>
-						{product.active ? (
+						{product.activeStatus ? (
 							<Chip color="success">Active</Chip>
 						) : (
 							<Chip color="danger">Inactive</Chip>
@@ -45,10 +45,9 @@ const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 const ProductManagementTable: React.FC<{ productList: IProductSpring[] }> = ({
 	productList,
 }) => {
-	// console.log(productList.length);
 	return (
 		<div className="product-manage-table">
-			{undefined === productList ? (
+			{undefined === productList || productList.length < 1 ? (
 				<Card radius="none">
 					<CardBody>
 						<h2>No products yet</h2>
@@ -75,9 +74,12 @@ const ProductManagementTable: React.FC<{ productList: IProductSpring[] }> = ({
 					</Card>
 
 					{null !== productList &&
-						productList.map((product: IProductSpring, i: number) => (
-							<ProductItem key={i + "item"} product={product} />
-						))}
+						productList.map(
+							(product: IProductSpring, i: number) =>
+								!product.deletedStatus && (
+									<ProductItem key={i + "item"} product={product} />
+								)
+						)}
 				</>
 			)}
 		</div>

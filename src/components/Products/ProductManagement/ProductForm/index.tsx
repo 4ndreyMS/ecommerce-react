@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
 	Button,
 	Input,
@@ -14,7 +15,7 @@ import UploadWidget from "../../../UploadWidget";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../../../states/loginState";
 import axios from "axios";
-import { IProduct, IProductSpring } from "../../../../models/IProduct";
+import { IProductSpring } from "../../../../models/IProduct";
 
 const ProductSchema = Yup.object().shape({
 	title: Yup.string().required("Title is required"),
@@ -31,10 +32,31 @@ interface categoryResonse {
 }
 
 const ProductForm = () => {
-	const [url, updateUrl] = useState("");
-	const [error, updateError] = useState("");
+	const [imageUrl, updateImageUrl] = useState("");
+	const [errorUploadImage, updateErrorUploadImage] = useState("");
 	const [categories, setCategories] = useState<categoryResonse[]>([]);
 	const [globalUser] = useRecoilState(loginState);
+	const [errorSubmitForm, setErrorSubmitForm] = useState("");
+
+	const submitFormData = async (newProduct: IProductSpring) => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		const config = {
+			headers: {
+				Authorization: `Bearer ${globalUser.token}`,
+			},
+		};
+
+		axios
+			.post(baseURL + "/api/v1/product/create", newProduct, config)
+			.then((response) => {
+				console.log("Response:", response.data);
+				// Handle the response data here
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				// Handle errors here
+			});
+	};
 
 	const formik = useFormik({
 		initialValues: {
@@ -54,15 +76,19 @@ const ProductForm = () => {
 				name: values.title,
 				description: values.description,
 				category: values.category,
-				featured: values.isFeatured,
+				featuredStatus: values.isFeatured,
 				stockQuantity: values.stock_amount,
 				price: values.price,
-				image: url,
+				image: imageUrl,
 				summary: values.abstract,
-				active: values.isActive,
+				activeStatus: values.isActive,
+				deletedStatus: false,
 			};
 			// Handle form submission here
 			console.log(newProducts);
+			if (imageUrl != "") {
+				submitFormData(newProducts);
+			}
 		},
 	});
 	/**
@@ -70,22 +96,22 @@ const ProductForm = () => {
 	 */
 	function handleOnUpload(error, result, widget) {
 		if (error) {
-			updateError(error);
+			updateErrorUploadImage(error);
 			widget.close({
 				quiet: true,
 			});
 			return;
 		}
-		updateUrl(result?.info?.secure_url);
-		updateError("");
+		updateImageUrl(result?.info?.secure_url);
+		updateErrorUploadImage("");
 	}
 
 	const checkImage = () => {
 		console.log("enter to validate");
-		if (url == "") {
-			updateError("Image is required");
+		if (imageUrl == "") {
+			updateErrorUploadImage("Image is required");
 		} else {
-			updateError("");
+			updateErrorUploadImage("");
 		}
 	};
 
@@ -186,14 +212,16 @@ const ProductForm = () => {
 
 						<UploadWidget onUpload={handleOnUpload} />
 
-						{error != "" && <p className="text-tiny text-danger">{error}</p>}
+						{errorUploadImage != "" && (
+							<p className="text-tiny text-danger">{errorUploadImage}</p>
+						)}
 
-						{url && (
+						{imageUrl && (
 							<>
 								<div>
-									<img src={url} alt="Uploaded resource" />
+									<img src={imageUrl} alt="Uploaded resource" />
 								</div>
-								<p>{url}</p>
+								<p>{imageUrl}</p>
 							</>
 						)}
 					</CardBody>
@@ -253,17 +281,16 @@ const ProductForm = () => {
 				{/* Add image upload field here */}
 				<Button
 					onClick={() => {
-						formik.handleSubmit();
 						checkImage();
+						formik.handleSubmit();
 					}}
-					type="submit"
 					radius="none"
 					isDisabled={
 						formik.errors.title ||
 						formik.errors.description ||
 						formik.errors.price ||
 						formik.errors.stock_amount ||
-						url == ""
+						imageUrl == ""
 							? true
 							: false
 					}
