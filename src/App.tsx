@@ -19,6 +19,7 @@ function App() {
 			<Routes>
 				<Route element={<PrivateRoutes />}>
 					<Route path="/checkout" Component={CheckOut}></Route>
+					<Route path="/profile" Component={DashBoard} />
 				</Route>
 				<Route path="/" Component={HomePage}></Route>
 				<Route path="/signin" Component={SignInPage}></Route>
@@ -28,7 +29,6 @@ function App() {
 				<Route path="/product-details" Component={ProductDetails}></Route>
 				<Route path="/cart" Component={ProductCart}></Route>
 				<Route path="/profile" Component={DashBoard}></Route>
-				<Route path="/dashboard" Component={DashBoard}></Route>
 			</Routes>
 			<Footer />
 		</>
