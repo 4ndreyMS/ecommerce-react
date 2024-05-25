@@ -1,10 +1,16 @@
 import { atom } from "recoil";
+import { IProductSpring } from "../models/IProduct";
 import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-export const cartProductsState = atom({
+export interface IcartItem {
+	quantity: number;
+	product: IProductSpring;
+}
+
+export const cartProductsState = atom<IcartItem[]>({
 	key: "cartProducts",
-	default: { count: 0, items: [] },
+	default: [],
 	effects_UNSTABLE: [persistAtom],
 });

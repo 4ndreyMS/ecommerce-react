@@ -13,18 +13,33 @@ import FilterBy from "../../components/Products/ProductsTable/FilterBy";
 import ProductsBanner from "../../components/Banners/ProductsBanner";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { loginState } from "../../states/loginState";
+import axios from "axios";
 
 const ProductList = () => {
 	//this value can change, is the paginated list
-	const [products, setProducts] = useRecoilState(filteredProductsState);
+	const [products] = useRecoilState(filteredProductsState);
 	//this list never changes, it can be access from anywhere
+	const [globalUser] = useRecoilState(loginState);
 	const [, setUnmutableProducts] = useRecoilState(unMutableProductsState);
 
+	const fetchIsAdmin = async () => {
+		const apiUrl = import.meta.env.VITE_BASE_API_URL + "/api/v1/product/getAll";
+
+		axios
+			.get(apiUrl)
+			.then((response) => {
+				console.log(response.data.data);
+				setUnmutableProducts(response.data.data);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				// Handle errors here
+			});
+	};
+
 	useEffect(() => {
-		getAllProducts().then((data) => {
-			setUnmutableProducts([...data]);
-			setProducts([...data]);
-		});
+		fetchIsAdmin();
 	}, []);
 
 	return (

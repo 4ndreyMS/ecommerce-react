@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { IProduct } from "../../models/IProduct";
+import { IProductSpring } from "../../models/IProduct";
 import "./Pagination.scss";
 
 interface PaginationProps {
 	itemsPerPage: number; //the amount of items per page
-	items: IProduct[]; //the data
+	items: IProductSpring[]; //the data
 	//the child to render and the proprs to assign
 	component: React.ComponentType<{
-		paginatedItems: IProduct[];
+		paginatedItems: IProductSpring[];
 	}>;
 }
 

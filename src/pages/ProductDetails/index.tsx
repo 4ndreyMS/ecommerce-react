@@ -1,24 +1,41 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getAllProducts } from "../../service/ProductListService";
-import { IProduct } from "../../models/IProduct";
+import { IProduct, IProductSpring } from "../../models/IProduct";
 import "./product-details.scss";
 import ProductDetail from "../../components/Products/ProductDetail/ProductDetail";
+import axios from "axios";
 
 const ProductDetails = () => {
-	const [product, setProduct] = useState<IProduct | null>(null);
+	const [product, setProduct] = useState<IProductSpring | null>(null);
 	const [searchParams] = useSearchParams();
 	const [isLoading, setIsLoading] = useState(true);
 	const productId = searchParams.get("id");
-	useEffect(() => {
-		getAllProducts().then((data: IProduct[]) => {
-			setIsLoading(true);
-			const filteredProduct = data.filter((product: IProduct) => {
-				return product.id === productId;
+
+	const fetchIsAdmin = async () => {
+		const apiUrl =
+			import.meta.env.VITE_BASE_API_URL +
+			"/api/v1/product/getById/" +
+			productId;
+
+		axios
+			.get(apiUrl)
+			.then((response) => {
+				console.log(response.data.data);
+				setProduct(response.data.data);
+				setIsLoading(false);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				setIsLoading(false);
+
+				// Handle errors here
 			});
-			setProduct(filteredProduct[0]);
-			setIsLoading(false);
-		});
+	};
+
+	useEffect(() => {
+		setIsLoading(true);
+		fetchIsAdmin();
 	}, []);
 
 	return (

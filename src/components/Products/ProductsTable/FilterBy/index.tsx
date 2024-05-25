@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { filteredProductsState } from "../../../../states/filteredProductsState";
-import { IProduct } from "../../../../models/IProduct";
+import { IProduct, IProductSpring } from "../../../../models/IProduct";
 import {
 	Card,
 	CardBody,
@@ -17,7 +17,7 @@ const FilterBy = ({
 	unmutableProdList,
 	highestPrice = 0,
 }: {
-	unmutableProdList: IProduct[];
+	unmutableProdList: IProductSpring[];
 	highestPrice: number;
 }) => {
 	const [, setFilteredList] = useRecoilState(filteredProductsState);
@@ -53,10 +53,10 @@ const FilterBy = ({
 	//this apply the filters to the unmutable list
 	useEffect(() => {
 		let filteredData = unmutableProdList
-			.filter((item: IProduct) => {
+			.filter((item: IProductSpring) => {
 				return item.name.toLowerCase().includes(inputValue.toLowerCase());
 			})
-			.filter((product: IProduct) => {
+			.filter((product: IProductSpring) => {
 				return categories.includes(product.category.toLowerCase());
 			})
 			.filter(
