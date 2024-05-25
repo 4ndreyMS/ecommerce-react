@@ -1,0 +1,16 @@
+.upload-img {
+	img {
+		max-width: 15rem;
+
+		@include tablet() {
+			& {
+				max-width: 20rem;
+			}
+		}
+		@include desktop() {
+			& {
+				max-width: 20rem;
+			}
+		}
+	}
+}

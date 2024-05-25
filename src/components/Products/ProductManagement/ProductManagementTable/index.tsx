@@ -3,6 +3,8 @@ import "./ProductManagementTable.scss";
 import { Card, CardBody, Chip } from "@nextui-org/react";
 import { DeleteIcon } from "../../../../assets/deleteIcon";
 import { IProductSpring } from "../../../../models/IProduct";
+import { useRecoilState } from "recoil";
+import { manageProductState } from "../../../../states/manageProductState";
 
 const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 	return (
@@ -42,12 +44,15 @@ const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 	);
 };
 
-const ProductManagementTable: React.FC<{ productList: IProductSpring[] }> = ({
-	productList,
-}) => {
+const ProductManagementTable = () => {
+	const [managedProducts] = useRecoilState(manageProductState);
+
+	console.log(manageProductState);
 	return (
 		<div className="product-manage-table">
-			{undefined === productList || productList.length < 1 ? (
+			{undefined === managedProducts ||
+			null === managedProducts ||
+			managedProducts?.length < 1 ? (
 				<Card radius="none">
 					<CardBody>
 						<h2>No products yet</h2>
@@ -73,8 +78,9 @@ const ProductManagementTable: React.FC<{ productList: IProductSpring[] }> = ({
 						</CardBody>
 					</Card>
 
-					{null !== productList &&
-						productList.map(
+					{undefined !== managedProducts &&
+						null !== managedProducts &&
+						managedProducts.map(
 							(product: IProductSpring, i: number) =>
 								!product.deletedStatus && (
 									<ProductItem key={i + "item"} product={product} />

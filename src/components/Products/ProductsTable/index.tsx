@@ -1,7 +1,7 @@
 import React from "react";
 import "./products.scss";
 import "../PreviewProducts/PreviewProducts.scss";
-import { IProduct } from "../../../models/IProduct";
+import { IProductSpring } from "../../../models/IProduct";
 import ProductItem from "../ProductItem";
 import FilterBy from "./FilterBy";
 import { useRecoilState } from "recoil";
@@ -9,12 +9,12 @@ import { unMutableProductsState } from "../../../states/filteredProductsState";
 
 const ProducsTable: React.FC<{
 	//if the pagination calls this component the data is paginated
-	paginatedItems: IProduct[];
+	paginatedItems: IProductSpring[];
 }> = ({ paginatedItems }) => {
 	const [allItems] = useRecoilState(unMutableProductsState);
 
 	const highestPrice: number = Math.max(
-		...allItems.map((item: IProduct) => Number(item.price))
+		...allItems.map((item: IProductSpring) => Number(item.price))
 	);
 
 	return (

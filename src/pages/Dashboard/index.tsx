@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.scss";
 import ProductsBanner from "../../components/Banners/ProductsBanner";
 import {
@@ -12,9 +12,34 @@ import {
 import { Link } from "react-router-dom";
 import { DashboardSectionsEnum } from "./DashboardSectionsEnum";
 import ProductManagement from "../../components/Products/ProductManagement";
+import { loginState } from "../../states/loginState";
+import { useRecoilState } from "recoil";
+import useGetApi from "../../service/useGetApi";
+import axios from "axios";
 
 const Dashboard = () => {
 	const [selectedSection, setSelectedSection] = useState(new Set(["Profile"]));
+	const [globalUser] = useRecoilState(loginState);
+	const apiUrl = import.meta.env.VITE_BASE_API_URL + "/users/isAdmin";
+	const [isAdmin, setIsAdmin] = useState(false);
+
+	const fetchIsAdmin = async () => {
+		try {
+			const response = await axios.get(apiUrl, {
+				headers: {
+					Authorization: `Bearer ${globalUser.token}`,
+				},
+			});
+			setIsAdmin(response.data.data);
+		} catch (err) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		fetchIsAdmin();
+	}, [[], globalUser]);
+
 	return (
 		<div className="dash-page">
 			<ProductsBanner title="Profile">
@@ -57,15 +82,17 @@ const Dashboard = () => {
 								<CardBody>Profile info</CardBody>
 							</Card>
 						</Tab>
-						<Tab
-							className="w-full"
-							key={DashboardSectionsEnum.PRODUCTS}
-							title={DashboardSectionsEnum.PRODUCTS}
-						>
-							<div className="bg-white">
-								<ProductManagement />
-							</div>
-						</Tab>
+						{isAdmin && (
+							<Tab
+								className="w-full"
+								key={DashboardSectionsEnum.PRODUCTS}
+								title={DashboardSectionsEnum.PRODUCTS}
+							>
+								<div className="bg-white">
+									<ProductManagement />
+								</div>
+							</Tab>
+						)}
 						<Tab
 							className="w-full"
 							key={DashboardSectionsEnum.ORDERS}

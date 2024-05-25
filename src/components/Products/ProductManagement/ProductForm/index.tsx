@@ -11,11 +11,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import UploadWidget from "../../../UploadWidget";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../../../states/loginState";
 import axios from "axios";
 import { IProductSpring } from "../../../../models/IProduct";
+import "./ProductForm.scss";
+import { manageProductState } from "../../../../states/manageProductState";
+import UploadWidget from "../../../UploadWidget";
 
 const ProductSchema = Yup.object().shape({
 	title: Yup.string().required("Title is required"),
@@ -32,11 +34,29 @@ interface categoryResonse {
 }
 
 const ProductForm = () => {
-	const [imageUrl, updateImageUrl] = useState("");
+	const [imageUrl, updateImageUrl] = useState(
+		"https://res.cloudinary.com/dhky0tai1/image/upload/v1716477708/olgzimx4vpyv5k6o6jy3.jpg"
+	);
 	const [errorUploadImage, updateErrorUploadImage] = useState("");
 	const [categories, setCategories] = useState<categoryResonse[]>([]);
 	const [globalUser] = useRecoilState(loginState);
-	const [errorSubmitForm, setErrorSubmitForm] = useState("");
+	const [active, setActive] = useState(false);
+	const [featured, setFeatured] = useState(false);
+
+	// const [errorSubmitForm, setErrorSubmitForm] = useState("");
+	const [managedProducts, setManagedProducts] =
+		useRecoilState<IProductSpring[]>(manageProductState);
+	const resetFormData = () => {
+		formik.resetForm();
+		updateImageUrl("");
+		// formik.values.category = "";
+		setFeatured(false);
+		setActive(false);
+		formik.handleChange;
+		setShouldReset(true);
+	};
+
+	const [shouldReset, setShouldReset] = useState(false);
 
 	const submitFormData = async (newProduct: IProductSpring) => {
 		const baseURL = import.meta.env.VITE_BASE_API_URL;
@@ -50,7 +70,9 @@ const ProductForm = () => {
 			.post(baseURL + "/api/v1/product/create", newProduct, config)
 			.then((response) => {
 				console.log("Response:", response.data);
-				// Handle the response data here
+				const responseDate = response.data.data;
+				setManagedProducts([...managedProducts, responseDate]);
+				console.log("managedProducts", managedProducts);
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -76,18 +98,19 @@ const ProductForm = () => {
 				name: values.title,
 				description: values.description,
 				category: values.category,
-				featuredStatus: values.isFeatured,
+				featuredStatus: featured,
 				stockQuantity: values.stock_amount,
 				price: values.price,
 				image: imageUrl,
 				summary: values.abstract,
-				activeStatus: values.isActive,
+				activeStatus: active,
 				deletedStatus: false,
 			};
 			// Handle form submission here
-			console.log(newProducts);
+			console.log("newProducts", newProducts);
 			if (imageUrl != "") {
 				submitFormData(newProducts);
+				resetFormData();
 			}
 		},
 	});
@@ -207,7 +230,7 @@ const ProductForm = () => {
 				</Card>
 
 				<Card className="w-full">
-					<CardBody className="gap-1">
+					<CardBody className="gap-4">
 						<p>Upload you product image</p>
 
 						<UploadWidget onUpload={handleOnUpload} />
@@ -218,10 +241,13 @@ const ProductForm = () => {
 
 						{imageUrl && (
 							<>
-								<div>
-									<img src={imageUrl} alt="Uploaded resource" />
+								<div className="flex items-center upload-img">
+									<img
+										className="max-w-s"
+										src={imageUrl}
+										alt="Uploaded resource"
+									/>
 								</div>
-								<p>{imageUrl}</p>
 							</>
 						)}
 					</CardBody>
@@ -230,17 +256,16 @@ const ProductForm = () => {
 					<CardBody className="gap-4">
 						<div className="flex gap-4">
 							<Checkbox
-								name="isFeatured"
-								checked={formik.values.isActive}
-								onChange={formik.handleChange}
-								defaultSelected
+								name="isActive"
+								isSelected={active}
+								onValueChange={setActive}
 							>
 								Active product
 							</Checkbox>
 							<Checkbox
 								name="isFeatured"
-								checked={formik.values.isFeatured}
-								onChange={formik.handleChange}
+								isSelected={featured}
+								onValueChange={setFeatured}
 							>
 								Featured product
 							</Checkbox>
