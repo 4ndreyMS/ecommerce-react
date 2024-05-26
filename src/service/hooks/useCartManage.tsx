@@ -4,10 +4,13 @@ import { useCallback } from "react";
 import { IcartItem, cartProductsState } from "../../states/cartState";
 import { loginState } from "../../states/loginState";
 import { IProductSpring } from "../../models/IProduct";
+import { useNavigate } from "react-router-dom";
+import { isEmptyObject } from "../../utils/objectValidations";
 
 export const useCartManage = () => {
 	const [cartItems, setCartItems] = useRecoilState(cartProductsState);
 	const [globalUser] = useRecoilState(loginState);
+	const navigate = useNavigate();
 
 	const saveCartItem = async (insertItem: IcartItem) => {
 		const baseURL = import.meta.env.VITE_BASE_API_URL;
@@ -68,5 +71,24 @@ export const useCartManage = () => {
 			});
 	};
 
-	return { saveCartItem, deleteCartItem };
+	const handleButtonAdd = (productInfo: IProductSpring) => {
+		if (isEmptyObject(globalUser)) {
+			console.log("change");
+			navigate("/signin", { replace: false });
+		} else {
+			const existingItem = cartItems?.find(
+				(item) => item.product.id === productInfo.id
+			);
+			const quantity = existingItem ? existingItem.quantity + 1 : 1;
+
+			const insertItem: IcartItem = {
+				product: productInfo,
+				quantity: quantity,
+			};
+
+			saveCartItem(insertItem);
+		}
+	};
+
+	return { saveCartItem, deleteCartItem, handleButtonAdd };
 };
