@@ -1,5 +1,5 @@
 import React from "react";
-import { IProduct, IProductSpring } from "../../../models/IProduct";
+import { IProductSpring } from "../../../models/IProduct";
 import "./products.scss";
 import { Button, Chip } from "@nextui-org/react";
 import { Link } from "react-router-dom";
@@ -7,8 +7,7 @@ import { AddICon } from "../../../assets/addIcon";
 import { useRecoilState } from "recoil";
 import { IcartItem, cartProductsState } from "../../../states/cartState";
 import { loginState } from "../../../states/loginState";
-import { IinsertItemCart } from "../ProductDetail/ProductDetail";
-import axios from "axios";
+import { useCartManage } from "../../../service/hooks/useCartManage";
 
 interface ProductItemProps {
 	productInfo: IProductSpring;
@@ -19,49 +18,9 @@ const ProductItem: React.FC<ProductItemProps> = ({
 	productInfo,
 	showFeatured,
 }) => {
-	const [cartItems, setCartItems] = useRecoilState(cartProductsState);
+	const [cartItems] = useRecoilState(cartProductsState);
 	const [globalUser] = useRecoilState(loginState);
-
-	const addToCart = async (insertItem: IinsertItemCart) => {
-		const baseURL = import.meta.env.VITE_BASE_API_URL;
-		const config = {
-			headers: {
-				Authorization: `Bearer ${globalUser.token}`,
-			},
-		};
-		await axios
-			.post(baseURL + "/api/v1/cart/create", insertItem, config) // Cambia la URL a tu endpoint de autenticación
-			.then((response) => {
-				const responseData = response.data.data;
-				const responseProductItem: IcartItem = {
-					quantity: responseData.quantity,
-					product: responseData.product,
-				};
-
-				let productExists = false;
-
-				// Create a new array with updated quantity for existing product
-				const updatedCartItems = cartItems.map((item) => {
-					if (item.product.id === responseProductItem.product.id) {
-						productExists = true;
-						return { ...item, quantity: responseProductItem.quantity };
-					}
-					return item;
-				});
-
-				// If the product does not exist, insert the new item
-				if (productExists) {
-					setCartItems(updatedCartItems);
-				} else {
-					setCartItems([...cartItems, responseProductItem]);
-				}
-
-				// Update the state
-			})
-			.catch((erro: Error) => {
-				throw erro.message;
-			});
-	};
+	const { saveCartItem } = useCartManage();
 
 	return (
 		<div className="products__card">
@@ -100,21 +59,22 @@ const ProductItem: React.FC<ProductItemProps> = ({
 							onClick={() => {
 								//validate if increments or is the same
 								let quantity = 1;
-								console.log("cartItems", cartItems);
 
-								(cartItems != null || cartItems != undefined) &&
-									cartItems.map((item) => {
+								cartItems != null &&
+									cartItems != undefined &&
+									cartItems.forEach((item) => {
 										quantity =
 											item.product.id === productInfo.id
 												? item.quantity + 1
 												: 1;
 									});
 
-								const insertItem: IinsertItemCart = {
+								const insertItem: IcartItem = {
 									product: productInfo,
 									quantity: quantity,
 								};
-								addToCart(insertItem);
+
+								saveCartItem(insertItem);
 							}}
 							size="sm"
 							isIconOnly
