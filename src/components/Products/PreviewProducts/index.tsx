@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./PreviewProducts.scss";
-import { IProduct } from "../../../models/IProduct";
+import { IProduct, IProductSpring } from "../../../models/IProduct";
 import axios from "axios";
 import { getAllProducts } from "../../../service/ProductListService";
 import ProductItem from "../ProductItem";
 import "./PreviewProducts.scss";
 import { Link } from "react-router-dom";
+import { unMutableProductsState } from "../../../states/filteredProductsState";
+import { useRecoilState } from "recoil";
 
 const PreviewProducts = () => {
-	const [producstList, setProductList] = useState<IProduct[]>([]);
-	useEffect(() => {
-		getAllProducts().then((data) => setProductList(data));
-	}, []);
+	const [producstList, setUnmutableProducts] = useRecoilState(
+		unMutableProductsState
+	);
 
 	return (
 		<div className="preview-products">
@@ -23,9 +24,9 @@ const PreviewProducts = () => {
 				{producstList.length < 0 && <p>Loading ....</p>}
 
 				<div id="preview-products" className="products__container wrapper">
-					{producstList.map((item: IProduct, i: number) => {
+					{producstList.map((item: IProductSpring, i: number) => {
 						return (
-							item.isFeatured && (
+							item.featuredStatus && (
 								<ProductItem
 									key={"item" + i}
 									showFeatured={true}
