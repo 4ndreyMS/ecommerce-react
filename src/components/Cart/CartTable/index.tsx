@@ -1,79 +1,42 @@
 import React from "react";
 
-import { IProduct, IProductSpring } from "../../../models/IProduct";
+import { IProductSpring } from "../../../models/IProduct";
 import { Button, Card, CardBody } from "@nextui-org/react";
 import "./CartTable.scss";
 import { useRecoilState } from "recoil";
 import { IcartItem, cartProductsState } from "../../../states/cartState";
 import { DeleteIcon } from "../../../assets/deleteIcon";
-import { count } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { car } from "@cloudinary/url-gen/qualifiers/focusOn";
-import axios from "axios";
-import { loginState } from "../../../states/loginState";
+import { useCartManage } from "../../../service/hooks/useCartManage";
 
-// interface CartTableProps {
-// 	cartList: IProductSpring[];
-// }
-// : React.FC<CartTableProps>
 const CartTable = () => {
-	const [cart, setCartItems] = useRecoilState(cartProductsState);
-	const [globalUser] = useRecoilState(loginState);
+	const [cart] = useRecoilState(cartProductsState);
+	const { saveCartItem, deleteCartItem } = useCartManage();
 
-	// const handleIncrease = (itemToIncrease: IProductSpring) => {
-	// 	const updatedItems = cart.items.map((item: IProduct) =>
-	// 		item.id === itemToIncrease.id
-	// 			? { ...item, itemAmount: item.itemAmount + 1 }
-	// 			: item
-	// 	);
-	// 	setCartItems({ count: cart.count + 1, items: updatedItems });
-	// };
+	const handleIncrease = (itemToIncrease: IcartItem) => {
+		const insertItem: IcartItem = {
+			product: itemToIncrease.product,
+			quantity: itemToIncrease.quantity + 1,
+		};
 
-	// const handleDecrease = (itemToDecrease) => {
-	// 	const updatedItems = cart.items.map((item: IProduct) =>
-	// 		item === itemToDecrease
-	// 			? {
-	// 					...item,
-	// 					itemAmount: item.itemAmount > 1 ? item.itemAmount - 1 : 1,
-	// 			  }
-	// 			: item
-	// 	);
-	// 	//in iterate over item obtaining the total
-	// 	const updCount = getTotalProdItemsReduce(updatedItems);
-
-	// 	setCartItems({ count: updCount, items: updatedItems });
-	// };
-
-	// const getTotalProdItemsReduce = (list) => {
-	// 	return list.reduce(
-	// 		(total: number, item: IProduct) => total + item.itemAmount,
-	// 		0
-	// 	);
-	// };
-
-	const handleDelete = async (itemToDelete: IProductSpring) => {
-		const baseURL = import.meta.env.VITE_BASE_API_URL;
-
-		await axios
-			.delete(baseURL + "/api/v1/cart/deleteCartItem/" + itemToDelete.id, {
-				headers: {
-					Authorization: `Bearer ${globalUser.token}`,
-				},
-			})
-			.then((response) => {
-				if (response.data.data) {
-					const updatedList = cart.filter(
-						(item: IcartItem) => item.product !== itemToDelete
-					);
-					setCartItems(updatedList);
-				}
-			})
-			.catch((error) => {
-				console.error("Error fetching data:", error.message);
-			});
+		saveCartItem(insertItem);
 	};
 
-	// console.log("cart", cart);
+	const handleDecrease = (itemToDecrese: IcartItem) => {
+		if (itemToDecrese.quantity === 1) {
+			deleteCartItem(itemToDecrese.product);
+		} else {
+			const insertItem: IcartItem = {
+				product: itemToDecrese.product,
+				quantity: itemToDecrese.quantity - 1,
+			};
+			saveCartItem(insertItem);
+		}
+	};
+
+	const handleDelete = (itemToDelete: IProductSpring) => {
+		deleteCartItem(itemToDelete);
+	};
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -115,7 +78,7 @@ const CartTable = () => {
 												size="sm"
 												className="amount-btn"
 												radius="none"
-												// onClick={() => handleDecrease(item.product)}
+												onClick={() => handleDecrease(item)}
 												aria-label="Decrease amount"
 											>
 												-
@@ -125,7 +88,7 @@ const CartTable = () => {
 												size="sm"
 												className="amount-btn"
 												radius="none"
-												// onClick={() => handleIncrease(item.product)}
+												onClick={() => handleIncrease(item)}
 												aria-label="Increase amount"
 											>
 												+
