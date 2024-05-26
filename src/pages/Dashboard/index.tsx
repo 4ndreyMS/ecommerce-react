@@ -14,7 +14,6 @@ import { DashboardSectionsEnum } from "./DashboardSectionsEnum";
 import ProductManagement from "../../components/Products/ProductManagement";
 import { loginState } from "../../states/loginState";
 import { useRecoilState } from "recoil";
-import useGetApi from "../../service/useGetApi";
 import axios from "axios";
 
 const Dashboard = () => {

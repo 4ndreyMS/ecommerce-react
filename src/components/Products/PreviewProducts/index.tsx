@@ -1,18 +1,34 @@
 import React, { useEffect, useState } from "react";
 import "./PreviewProducts.scss";
-import { IProduct, IProductSpring } from "../../../models/IProduct";
+import { IProductSpring } from "../../../models/IProduct";
 import axios from "axios";
-import { getAllProducts } from "../../../service/ProductListService";
 import ProductItem from "../ProductItem";
 import "./PreviewProducts.scss";
 import { Link } from "react-router-dom";
-import { unMutableProductsState } from "../../../states/filteredProductsState";
-import { useRecoilState } from "recoil";
 
 const PreviewProducts = () => {
-	const [producstList, setUnmutableProducts] = useRecoilState(
-		unMutableProductsState
-	);
+	const [featuredProducstList, setFeaturedProducstList] = useState<
+		IProductSpring[]
+	>([]);
+
+	const fetchData = async () => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		await axios
+			.get(baseURL + "/api/v1/product/getAllFeatured")
+			.then((response) => {
+				if (response.data != undefined) {
+					console.log(response.data.data);
+					setFeaturedProducstList(response.data.data);
+				}
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error.message);
+			});
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, []);
 
 	return (
 		<div className="preview-products">
@@ -21,10 +37,10 @@ const PreviewProducts = () => {
 					Our top products
 				</h2>
 
-				{producstList.length < 0 && <p>Loading ....</p>}
+				{featuredProducstList.length < 0 && <p>Loading ....</p>}
 
 				<div id="preview-products" className="products__container wrapper">
-					{producstList.map((item: IProductSpring, i: number) => {
+					{featuredProducstList.map((item: IProductSpring, i: number) => {
 						return (
 							item.featuredStatus && (
 								<ProductItem
