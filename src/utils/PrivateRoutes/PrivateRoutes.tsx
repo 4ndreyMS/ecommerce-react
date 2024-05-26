@@ -10,8 +10,6 @@ const PrivateRoutes = () => {
 
 	if (isEmptyObject(loggedUser)) {
 		return <Navigate to="/signin" />;
-	} else if (cart.count < 1) {
-		return <Navigate to="/products" />;
 	} else {
 		return <Outlet />;
 	}

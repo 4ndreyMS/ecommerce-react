@@ -18,11 +18,12 @@ const CartSummary = () => {
 	useEffect(() => {
 		let totalPrice = 0;
 		let totalItems = 0;
-		cartItems.forEach((item) => {
-			const price = Number(item.product.price) * item.quantity;
-			totalPrice += price;
-			totalItems += item.quantity;
-		});
+		undefined !== cartItems &&
+			cartItems.forEach((item) => {
+				const price = Number(item.product.price) * item.quantity;
+				totalPrice += price;
+				totalItems += item.quantity;
+			});
 		setProductTotal({ totalPrice: totalPrice, totalItems: totalItems });
 	}, [cartItems]);
 
@@ -39,7 +40,7 @@ const CartSummary = () => {
 						{`(${productTotal.totalItems} products ): $ ${productTotal.totalPrice}`}
 					</p>
 					<Button
-						isDisabled={cartItems.length < 1}
+						isDisabled={undefined !== cartItems && cartItems.length < 1}
 						as={Link}
 						aria-label="Prooced to checkout"
 						className="semi-bold btn-filled-transparent"

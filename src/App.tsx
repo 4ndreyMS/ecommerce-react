@@ -20,6 +20,7 @@ function App() {
 				<Route element={<PrivateRoutes />}>
 					<Route path="/checkout" Component={CheckOut}></Route>
 					<Route path="/profile" Component={DashBoard} />
+					<Route path="/cart" Component={ProductCart}></Route>
 				</Route>
 				<Route path="/" Component={HomePage}></Route>
 				<Route path="/signin" Component={SignInPage}></Route>
@@ -27,7 +28,6 @@ function App() {
 				<Route path="/#about" Component={HomePage}></Route>
 				<Route path="/signup" Component={SignUpPage}></Route>
 				<Route path="/product-details" Component={ProductDetails}></Route>
-				<Route path="/cart" Component={ProductCart}></Route>
 				<Route path="/profile" Component={DashBoard}></Route>
 			</Routes>
 			<Footer />
