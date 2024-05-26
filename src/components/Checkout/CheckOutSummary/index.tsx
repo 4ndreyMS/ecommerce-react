@@ -2,7 +2,6 @@ import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../../states/cartState";
-import { IProduct } from "../../../models/IProduct";
 import "./CheckOutSummary.scss";
 import ModalCustom from "../../Modal";
 interface ProductTotal {
@@ -25,17 +24,17 @@ const CheckOutSummary = () => {
 		let totalPrice = 0;
 		let totalItems = 0;
 
-		cartItems.items.forEach((product: IProduct) => {
-			const price = Number(product.price) * product.itemAmount;
+		cartItems.forEach((item) => {
+			const price = Number(item.product.price) * item.quantity;
 			totalPrice += price;
-			totalItems += product.itemAmount;
+			totalItems += item.quantity;
 		});
 		setProductTotal({
 			totalPrice: totalPrice,
 			totalItems: totalItems,
 			totalPriceNoTax: totalPrice + shipping,
 		});
-	}, [cartItems.items]);
+	}, [cartItems]);
 
 	return (
 		<Card className="bg-geige h-fit" radius="none">
@@ -46,11 +45,11 @@ const CheckOutSummary = () => {
 			<CardBody>
 				<div className="flex flex-col gap-4">
 					<div>
-						{cartItems.items.map((item: IProduct, i: number) => {
+						{cartItems.map((item, i: number) => {
 							return (
 								<div key={i + "item"} className="item-info-cont">
-									<p>{item.name + " x ( " + item.itemAmount + " )"}</p>
-									<p>${Number(item.price) * item.itemAmount}</p>
+									<p>{item.product.name + " x ( " + item.quantity + " )"}</p>
+									<p>${Number(item.product.price) * item.quantity}</p>
 								</div>
 							);
 						})}

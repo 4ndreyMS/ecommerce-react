@@ -4,8 +4,19 @@ import "./CheckoutPage.scss";
 import ProductsBanner from "../../components/Banners/ProductsBanner";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useCartManage } from "../../service/hooks/useCartManage";
+import { useRecoilState } from "recoil";
+import { loginState } from "../../states/loginState";
 
 const CheckOut = () => {
+	const [globalUser] = useRecoilState(loginState);
+	const { getProductsCart } = useCartManage();
+
+	useEffect(() => {
+		globalUser != undefined && getProductsCart();
+	}, []);
+
 	return (
 		<div>
 			<ProductsBanner title="Checkout">

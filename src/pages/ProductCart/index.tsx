@@ -8,29 +8,14 @@ import { cartProductsState } from "../../states/cartState";
 import CartSummary from "../../components/Cart/CartSummary";
 import axios from "axios";
 import { loginState } from "../../states/loginState";
+import { useCartManage } from "../../service/hooks/useCartManage";
 
 const ProductCart = () => {
-	const [cartItems, setCartItems] = useRecoilState(cartProductsState);
 	const [globalUser] = useRecoilState(loginState);
-
-	const getProductCart = async () => {
-		const baseURL = import.meta.env.VITE_BASE_API_URL;
-		await axios
-			.get(baseURL + "/api/v1/cart/getCartItems", {
-				headers: {
-					Authorization: `Bearer ${globalUser.token}`,
-				},
-			})
-			.then((response) => {
-				setCartItems(response.data.data);
-			})
-			.catch((error) => {
-				console.error("Error fetching data:", error.message);
-			});
-	};
+	const { getProductsCart } = useCartManage();
 
 	useEffect(() => {
-		globalUser != undefined && getProductCart();
+		globalUser != undefined && getProductsCart();
 	}, []);
 
 	return (

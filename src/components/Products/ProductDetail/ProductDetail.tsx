@@ -40,7 +40,7 @@ const ProductDetail = ({ product }: { product: IProductSpring }) => {
 							className="semi-bold button-unfilled max-w-[10rem]"
 							radius="none"
 							onClick={() => {
-								handleButtonAdd(product);
+								handleButtonAdd(product, "Product added to cart");
 							}}
 						>
 							Add to cart

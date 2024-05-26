@@ -6,13 +6,17 @@ import { loginState } from "../../states/loginState";
 import { IProductSpring } from "../../models/IProduct";
 import { useNavigate } from "react-router-dom";
 import { isEmptyObject } from "../../utils/objectValidations";
+import toast from "react-hot-toast";
 
 export const useCartManage = () => {
 	const [cartItems, setCartItems] = useRecoilState(cartProductsState);
 	const [globalUser] = useRecoilState(loginState);
 	const navigate = useNavigate();
 
-	const saveCartItem = async (insertItem: IcartItem) => {
+	const saveCartItem = async (
+		insertItem: IcartItem,
+		successMessage: string
+	) => {
 		const baseURL = import.meta.env.VITE_BASE_API_URL;
 		const config = {
 			headers: {
@@ -43,8 +47,12 @@ export const useCartManage = () => {
 				} else {
 					setCartItems([...cartItems, responseProductItem]);
 				}
+				toast.success(successMessage ? successMessage : "Cart updated!", {
+					position: "bottom-center",
+				});
 			})
 			.catch((error: Error) => {
+				toast.error("Error updating the cart!");
 				throw error.message;
 			});
 	};
@@ -63,15 +71,20 @@ export const useCartManage = () => {
 					const updatedList = cartItems.filter(
 						(item: IcartItem) => item.product !== itemToDelete
 					);
+					toast.success("Item removed from cart!");
 					setCartItems(updatedList);
 				}
 			})
 			.catch((error) => {
+				toast.error("Error removing from cart!");
 				console.error("Error fetching data:", error.message);
 			});
 	};
 
-	const handleButtonAdd = (productInfo: IProductSpring) => {
+	const handleButtonAdd = (
+		productInfo: IProductSpring,
+		successMessage: string
+	) => {
 		if (isEmptyObject(globalUser)) {
 			console.log("change");
 			navigate("/signin", { replace: false });
@@ -86,9 +99,25 @@ export const useCartManage = () => {
 				quantity: quantity,
 			};
 
-			saveCartItem(insertItem);
+			saveCartItem(insertItem, successMessage);
 		}
 	};
 
-	return { saveCartItem, deleteCartItem, handleButtonAdd };
+	const getProductsCart = async () => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		await axios
+			.get(baseURL + "/api/v1/cart/getCartItems", {
+				headers: {
+					Authorization: `Bearer ${globalUser.token}`,
+				},
+			})
+			.then((response) => {
+				setCartItems(response.data.data);
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error.message);
+			});
+	};
+
+	return { saveCartItem, deleteCartItem, handleButtonAdd, getProductsCart };
 };

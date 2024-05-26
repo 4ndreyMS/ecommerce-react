@@ -52,7 +52,7 @@ const ProductItem: React.FC<ProductItemProps> = ({
 
 					<Button
 						onClick={() => {
-							handleButtonAdd(productInfo);
+							handleButtonAdd(productInfo, "Product added to cart!");
 						}}
 						size="sm"
 						isIconOnly

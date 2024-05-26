@@ -5,6 +5,7 @@ import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import { RecoilRoot } from "recoil";
+import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -12,6 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 			<RecoilRoot>
 				<NextUIProvider>
 					<App />
+					<Toaster />
 				</NextUIProvider>
 			</RecoilRoot>
 		</BrowserRouter>
