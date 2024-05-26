@@ -43,7 +43,6 @@ const Nav = () => {
 
 	useEffect(() => {
 		globalUser.token != undefined && getProductCart();
-		globalUser.token != undefined && getProductCart();
 	}, []);
 
 	return (

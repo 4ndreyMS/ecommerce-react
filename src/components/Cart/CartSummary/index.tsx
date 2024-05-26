@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../../states/cartState";
-import { IProduct } from "../../../models/IProduct";
 import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
@@ -19,13 +18,13 @@ const CartSummary = () => {
 	useEffect(() => {
 		let totalPrice = 0;
 		let totalItems = 0;
-		cartItems.items.forEach((product: IProduct) => {
-			const price = Number(product.price) * product.itemAmount;
+		cartItems.forEach((item) => {
+			const price = Number(item.product.price) * item.quantity;
 			totalPrice += price;
-			totalItems += product.itemAmount;
+			totalItems += item.quantity;
 		});
 		setProductTotal({ totalPrice: totalPrice, totalItems: totalItems });
-	}, [cartItems.items]);
+	}, [cartItems]);
 
 	return (
 		<Card className="bg-geige max-w-[20rem]  " radius="none">
@@ -40,7 +39,7 @@ const CartSummary = () => {
 						{`(${productTotal.totalItems} products ): $ ${productTotal.totalPrice}`}
 					</p>
 					<Button
-						isDisabled={cartItems.count < 1}
+						isDisabled={cartItems.length < 1}
 						as={Link}
 						aria-label="Prooced to checkout"
 						className="semi-bold btn-filled-transparent"
