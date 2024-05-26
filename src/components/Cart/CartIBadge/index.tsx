@@ -5,11 +5,17 @@ import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../../states/cartState";
 const CartIBadge = () => {
 	const [isInvisible, setIsInvisible] = useState(false);
-
+	const [counter, setCounter] = useState(0);
 	const [cartItem] = useRecoilState(cartProductsState);
 
 	useEffect(() => {
-		if (cartItem.count === 0 || Number.isNaN(cartItem.count)) {
+		let countItems = 0;
+		cartItem.forEach((item) => {
+			countItems = countItems + item.quantity;
+		});
+
+		setCounter(countItems);
+		if (countItems === 0) {
 			setIsInvisible(true);
 		} else {
 			setIsInvisible(false);
@@ -18,7 +24,7 @@ const CartIBadge = () => {
 	return (
 		<Badge
 			color="danger"
-			content={cartItem.count}
+			content={counter}
 			isInvisible={isInvisible}
 			shape="circle"
 		>

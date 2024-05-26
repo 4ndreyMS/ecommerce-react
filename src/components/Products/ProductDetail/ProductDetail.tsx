@@ -7,7 +7,7 @@ import axios from "axios";
 import { loginState } from "../../../states/loginState";
 import { isEmptyObject } from "../../../utils/objectValidations";
 
-interface IinsertItemCart {
+export interface IinsertItemCart {
 	product: IProductSpring;
 	quantity: number;
 }

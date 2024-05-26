@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./navbar.scss";
 import {
 	Navbar,
@@ -16,11 +16,35 @@ import { useRecoilState } from "recoil";
 import { loginState } from "../../../states/loginState";
 import { isEmptyObject } from "../../../utils/objectValidations";
 import CartIBadge from "../../Cart/CartIBadge";
+import axios from "axios";
+import { cartProductsState } from "../../../states/cartState";
 
 const Nav = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 	const [loggedUser, setLoggedUSer] = useRecoilState(loginState);
 	const [globalUser] = useRecoilState(loginState);
+	const [, setCartItems] = useRecoilState(cartProductsState);
+
+	const getProductCart = async () => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		await axios
+			.get(baseURL + "/api/v1/cart/getCartItems", {
+				headers: {
+					Authorization: `Bearer ${globalUser.token}`,
+				},
+			})
+			.then((response) => {
+				setCartItems(response.data.data);
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error.message);
+			});
+	};
+
+	useEffect(() => {
+		globalUser.token != undefined && getProductCart();
+		globalUser.token != undefined && getProductCart();
+	}, []);
 
 	return (
 		<Navbar className="nav" onMenuOpenChange={setIsMenuOpen}>
