@@ -4,6 +4,7 @@ import { Input, Button } from "@nextui-org/react";
 import * as Yup from "yup";
 import { checkOutState } from "../../../states/checkOutState";
 import { useRecoilState } from "recoil";
+import toast from "react-hot-toast";
 
 const CardForm = () => {
 	const [currentProvider, serCurrentProvider] = useState("");
@@ -88,10 +89,17 @@ const CardForm = () => {
 		},
 		validationSchema: CardSchema,
 		onSubmit: (values) => {
-			// Handle form submission
+			// Handle form submissionW
 			setCheckOutData({
 				addressForm: checkOutData.addressForm,
-				cardForm: values,
+				cardForm: {
+					cardNumber: values.cardNumber,
+					cardType: "",
+					expiryDate: values.expirationDate,
+				},
+			});
+			toast.success("Card info saved!", {
+				position: "bottom-center",
 			});
 		},
 	});
@@ -175,7 +183,19 @@ const CardForm = () => {
 				isInvalid={formik.errors.cvv ? true : false}
 				errorMessage={formik.errors.cvv && formik.errors.cvv}
 			/>
-			<Button radius="none" className="bg-brown text-white" type="submit">
+			<Button
+				isDisabled={
+					formik.errors.cvv ||
+					formik.errors.expirationDate ||
+					formik.errors.cardHolderName ||
+					formik.errors.cardNumber
+						? true
+						: false
+				}
+				radius="none"
+				className="bg-brown text-white"
+				type="submit"
+			>
 				Save
 			</Button>
 		</form>

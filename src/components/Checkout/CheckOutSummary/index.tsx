@@ -4,18 +4,21 @@ import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../../states/cartState";
 import "./CheckOutSummary.scss";
 import ModalCustom from "../../Modal";
-interface ProductTotal {
+import { checkOutState } from "../../../states/checkOutState";
+export interface IProductTotal {
 	totalPrice: number;
 	totalItems: number;
 	totalPriceNoTax: number;
+	taxPrice: number;
 }
 
 const CheckOutSummary = () => {
 	const [cartItems] = useRecoilState(cartProductsState);
-	const [productTotal, setProductTotal] = useState<ProductTotal>({
+	const [productTotal, setProductTotal] = useState<IProductTotal>({
 		totalItems: 0,
 		totalPrice: 0,
 		totalPriceNoTax: 0,
+		taxPrice: 0,
 	});
 
 	const shipping = 10;
@@ -33,6 +36,7 @@ const CheckOutSummary = () => {
 			totalPrice: totalPrice,
 			totalItems: totalItems,
 			totalPriceNoTax: totalPrice + shipping,
+			taxPrice: tax,
 		});
 	}, [cartItems]);
 
@@ -73,7 +77,7 @@ const CheckOutSummary = () => {
 						<p>Order total</p>
 						<p>${productTotal.totalPrice + tax + shipping}</p>
 					</div>
-					<ModalCustom totalAmount={productTotal.totalPrice + tax + shipping} />
+					<ModalCustom totalAmount={productTotal} />
 				</div>
 			</CardBody>
 		</Card>

@@ -19,7 +19,7 @@ const CartTable = () => {
 			quantity: itemToIncrease.quantity + 1,
 		};
 
-		saveCartItem(insertItem);
+		saveCartItem(insertItem, "Cart updated!");
 	};
 
 	const handleDecrease = (itemToDecrese: IcartItem) => {
@@ -30,7 +30,7 @@ const CartTable = () => {
 				product: itemToDecrese.product,
 				quantity: itemToDecrese.quantity - 1,
 			};
-			saveCartItem(insertItem);
+			saveCartItem(insertItem, "Cart updated!");
 		}
 	};
 

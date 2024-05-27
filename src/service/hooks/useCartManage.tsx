@@ -71,7 +71,9 @@ export const useCartManage = () => {
 					const updatedList = cartItems.filter(
 						(item: IcartItem) => item.product !== itemToDelete
 					);
-					toast.success("Item removed from cart!");
+					toast.success("Item removed from cart!", {
+						position: "bottom-center",
+					});
 					setCartItems(updatedList);
 				}
 			})

@@ -12,29 +12,71 @@ import "./Modal.scss";
 import { useRecoilState } from "recoil";
 import { cartProductsState } from "../../states/cartState";
 import { checkOutState } from "../../states/checkOutState";
+import { useOrderManage } from "../../service/hooks/useOrderManage";
+import { IOrderInfo } from "../../models/IOrderInfo";
+import { IProductTotal } from "../Checkout/CheckOutSummary";
+import toast from "react-hot-toast";
 
 interface ModalProps {
-	totalAmount: number;
+	totalAmount: IProductTotal;
 }
 
 const ModalCustom: React.FC<ModalProps> = ({ totalAmount }) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+	const { saveOrderItem, response } = useOrderManage();
 	const [, setCart] = useRecoilState(cartProductsState);
 	const [checkOutData] = useRecoilState(checkOutState);
 
 	const clearCart = () => {
-		setCart({ count: 0, items: [] });
+		setCart([]);
+	};
+
+	const storeOrderInfo = () => {
+		const newOrder: IOrderInfo = {
+			id: 0,
+			totalAmount: totalAmount.totalItems,
+			taxAmount: totalAmount.taxPrice,
+			totalWithoutTax: totalAmount.totalPriceNoTax,
+			orderStatus: "PENDING",
+			addres1: checkOutData.addressForm.address1,
+			addres2: checkOutData.addressForm.address2,
+			city: checkOutData.addressForm.city,
+			state: checkOutData.addressForm.state,
+			zipCode: checkOutData.addressForm.zipCode,
+			cardNumber: checkOutData.cardForm.cardNumber,
+			cardType: checkOutData.cardForm.cardType,
+			expiryDate: checkOutData.cardForm.expiryDate,
+		};
+		saveOrderItem(newOrder).then((response) => {
+			if (response) {
+				onOpen();
+				setTimeout(() => {
+					// Clear the state
+					setCart([]);
+					// Redirect to the cart
+				}, 25000);
+			} else {
+				console.log("response", response);
+				toast.error("Error placing your order!");
+			}
+		});
 	};
 
 	return (
 		<>
 			<Button
 				isDisabled={
-					!(Object.keys(checkOutData.addressForm).length >= 4) ||
-					!(Object.keys(checkOutData.cardForm).length >= 4)
+					checkOutData.addressForm.address1 === "" ||
+					checkOutData.addressForm.address2 === "" ||
+					checkOutData.addressForm.city === "" ||
+					checkOutData.addressForm.state === "" ||
+					checkOutData.addressForm.zipCode === "" ||
+					checkOutData.cardForm.cardNumber === "" ||
+					checkOutData.cardForm.expiryDate === ""
 				}
-				onPress={onOpen}
+				onPress={() => {
+					storeOrderInfo();
+				}}
 				aria-label="Place your order"
 				className="semi-bold btn-filled-transparent"
 				radius="none"
@@ -69,7 +111,9 @@ const ModalCustom: React.FC<ModalProps> = ({ totalAmount }) => {
 									/>
 								</div>
 								<div>
-									<p className="text-center">Total amount: ${totalAmount}</p>
+									<p className="text-center">
+										Total amount: ${totalAmount.taxPrice}
+									</p>
 								</div>
 								<div>
 									<p className="text-center">

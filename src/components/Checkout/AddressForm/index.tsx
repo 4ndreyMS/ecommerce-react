@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { useRecoilState } from "recoil";
 import { checkOutState } from "../../../states/checkOutState";
 import { getAllStates } from "../../../service/ProductListService";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 // Yup for form validations
 const AddressSchema = Yup.object().shape({
@@ -33,20 +35,43 @@ const AddressForm = () => {
 			address1: "",
 			address2: "",
 			city: "",
-			province: "",
+			province: "", // Changed 'province' to 'state'
 			zipCode: "",
-			// country: "",
 		},
 		validationSchema: AddressSchema,
 		onSubmit: (values) => {
-			setCheckOutData({ addressForm: values, cardForm: checkOutData.cardForm });
+			setCheckOutData({
+				addressForm: {
+					address1: values.address1,
+					address2: values.address2,
+					city: values.city,
+					state: values.province,
+					zipCode: values.zipCode,
+				},
+				cardForm: checkOutData.cardForm,
+			});
+			toast.success("Shipping info saved!", {
+				position: "bottom-center",
+			});
 		},
 	});
 
+	const fetchData = async () => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		await axios
+			.get(baseURL + "/api/v1/state/getAll")
+			.then((response) => {
+				if (response.data != undefined) {
+					setProvinceList(response.data.data);
+				}
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error.message);
+			});
+	};
+
 	useEffect(() => {
-		getAllStates().then((data) => {
-			setProvinceList(data[0]);
-		});
+		fetchData();
 	}, []);
 
 	return (
@@ -130,7 +155,20 @@ const AddressForm = () => {
 				isInvalid={formik.errors.zipCode ? true : false}
 				errorMessage={formik.errors.zipCode && formik.errors.zipCode}
 			/>
-			<Button radius="none" className="bg-brown text-white" type="submit">
+			<Button
+				isDisabled={
+					formik.errors.address1 ||
+					formik.errors.address2 ||
+					formik.errors.city ||
+					formik.errors.province ||
+					formik.errors.zipCode
+						? true
+						: false
+				}
+				radius="none"
+				className="bg-brown text-white"
+				type="submit"
+			>
 				Save
 			</Button>
 		</form>
