@@ -52,7 +52,7 @@ const Dashboard = () => {
 		getMyData().then((data) => {
 			setUserData(data);
 		});
-	}, [[], globalUser]);
+	}, [globalUser]);
 
 	useEffect(() => {
 		setOderDetails(null);

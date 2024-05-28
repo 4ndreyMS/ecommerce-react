@@ -6,14 +6,17 @@ import useGetApi from "../../../service/useGetApi";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../../states/loginState";
 import { manageProductState } from "../../../states/manageProductState";
+import { addEdit } from "../../../states/addEditState";
+import ProductEditForm from "./ProdcutEditForm";
+import { productToUpdate } from "../../../states/productToUpdate";
 
 const ProductManagement = () => {
-	const [addEdit, setAddEdit] = useState(false);
+	const [addEditVal, setAddEdit] = useRecoilState(addEdit);
+
 	const [globalUser] = useRecoilState(loginState);
 	const [, setManagedProducts] = useRecoilState(manageProductState);
 	const apiUrl = import.meta.env.VITE_BASE_API_URL + "/api/v1/product/getAll";
 	const { responseData, loading, error } = useGetApi(apiUrl, globalUser.token);
-
 	useEffect(() => {
 		if (responseData != null) {
 			// Check if data is available
@@ -23,7 +26,7 @@ const ProductManagement = () => {
 
 	return (
 		<div className="">
-			{!addEdit && (
+			{addEditVal === 0 && (
 				<div className="flex flex-col gap-4">
 					<div className="flex gap-4 justify-between">
 						<Input
@@ -35,7 +38,7 @@ const ProductManagement = () => {
 							radius="none"
 							className="font-medium bg-brown text-white"
 							onClick={() => {
-								setAddEdit(true);
+								setAddEdit(1);
 							}}
 						>
 							Add
@@ -44,7 +47,7 @@ const ProductManagement = () => {
 					<ProductManagementTable />
 				</div>
 			)}
-			{addEdit && (
+			{addEditVal === 1 && (
 				<div className="flex flex-col gap-4">
 					<div className="flex items-center gap-4">
 						<Button
@@ -52,7 +55,7 @@ const ProductManagement = () => {
 							className="bg-brown text-white"
 							size="sm"
 							onClick={() => {
-								setAddEdit(false);
+								setAddEdit(0);
 							}}
 						>
 							Back
@@ -62,6 +65,30 @@ const ProductManagement = () => {
 					<div>
 						<ProductForm />
 					</div>
+				</div>
+			)}
+
+			{addEditVal === 3 && (
+				<div className="flex flex-col gap-4">
+					<div className="flex flex-col gap-4 w-full">
+						<div>
+							<Button
+								radius="none"
+								className="bg-brown text-white"
+								size="sm"
+								onClick={() => {
+									setAddEdit(0);
+								}}
+							>
+								Back
+							</Button>
+						</div>
+
+						<ProductEditForm />
+					</div>
+					{/* <div>
+						<ProductForm />
+					</div> */}
 				</div>
 			)}
 

@@ -9,10 +9,14 @@ import { EditIcon } from "../../../../assets/editIcon";
 import axios from "axios";
 import { loginState } from "../../../../states/loginState";
 import toast from "react-hot-toast";
+import { addEdit } from "../../../../states/addEditState";
+import { productToUpdate } from "../../../../states/productToUpdate";
 
 const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 	const [managedProducts, setManagedProducts] =
 		useRecoilState(manageProductState);
+	const [addEditVal, setAddEdit] = useRecoilState(addEdit);
+	const [, setProdToUpdate] = useRecoilState(productToUpdate);
 
 	const [globalUser] = useRecoilState(loginState);
 
@@ -84,7 +88,8 @@ const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 								className="delete-btn"
 								aria-label="Delete"
 								onClick={() => {
-									// handleDelete(product);
+									setAddEdit(3);
+									setProdToUpdate(product);
 								}}
 							>
 								<EditIcon className="text-lg text-default-400 cursor-pointer active:opacity-50" />
