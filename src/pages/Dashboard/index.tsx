@@ -15,6 +15,7 @@ import ProductManagement from "../../components/Products/ProductManagement";
 import { loginState } from "../../states/loginState";
 import { useRecoilState } from "recoil";
 import axios from "axios";
+import OrderTable from "../../components/OrderTable";
 
 const Dashboard = () => {
 	const [selectedSection, setSelectedSection] = useState(new Set(["Profile"]));
@@ -97,9 +98,9 @@ const Dashboard = () => {
 							key={DashboardSectionsEnum.ORDERS}
 							title={DashboardSectionsEnum.ORDERS}
 						>
-							<Card>
-								<CardBody>Orders</CardBody>
-							</Card>
+							<div>
+								<OrderTable />
+							</div>
 						</Tab>
 					</Tabs>
 				</div>

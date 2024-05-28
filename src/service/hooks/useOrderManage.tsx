@@ -3,19 +3,14 @@ import { loginState } from "../../states/loginState";
 import axios from "axios";
 import { IOrderInfo } from "../../models/IOrderInfo";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { cartProductsState } from "../../states/cartState";
 import { useState } from "react";
-import { boolean } from "yup";
 
 export const useOrderManage = () => {
 	// const [cartItems, setCartItems] = useRecoilState(cartProductsState);
 	const [response, setResoponse] = useState(false);
-	const [error, setError] = useState("");
+	const [error] = useState("");
 
 	const [globalUser] = useRecoilState(loginState);
-	const [, setCart] = useRecoilState(cartProductsState);
-	const navigate = useNavigate();
 
 	const saveOrderItem = async (insertItem: IOrderInfo) => {
 		const baseURL = import.meta.env.VITE_BASE_API_URL;
@@ -43,5 +38,23 @@ export const useOrderManage = () => {
 				return false;
 			});
 	};
-	return { saveOrderItem, response, error };
+
+	const getUserOrders = async () => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		try {
+			const response = await axios.get(
+				baseURL + "/api/v1/order/allUserOrders",
+				{
+					headers: {
+						Authorization: `Bearer ${globalUser.token}`,
+					},
+				}
+			);
+			return response.data.data; // return the data to the caller
+		} catch (error) {
+			console.error("Error fetching data:", error);
+			return null; // return null in case of an error
+		}
+	};
+	return { saveOrderItem, getUserOrders, response, error };
 };
