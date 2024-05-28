@@ -29,11 +29,11 @@ const ProductManagement = () => {
 			{addEditVal === 0 && (
 				<div className="flex flex-col gap-4">
 					<div className="flex gap-4 justify-between">
-						<Input
+						{/* <Input
 							className="max-w-xs"
 							type="text"
 							placeholder="Product name"
-						/>
+						/> */}
 						<Button
 							radius="none"
 							className="font-medium bg-brown text-white"

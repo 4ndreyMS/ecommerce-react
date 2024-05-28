@@ -34,9 +34,7 @@ interface categoryResonse {
 }
 
 const ProductForm = () => {
-	const [imageUrl, updateImageUrl] = useState(
-		"https://res.cloudinary.com/dhky0tai1/image/upload/v1716477708/olgzimx4vpyv5k6o6jy3.jpg"
-	);
+	const [imageUrl, updateImageUrl] = useState();
 	const [errorUploadImage, updateErrorUploadImage] = useState("");
 	const [categories, setCategories] = useState<categoryResonse[]>([]);
 	const [globalUser] = useRecoilState(loginState);

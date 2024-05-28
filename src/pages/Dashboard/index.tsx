@@ -59,7 +59,7 @@ const Dashboard = () => {
 	}, []);
 
 	return (
-		<div className="dash-page">
+		<div className="dash-page min-h-[70vh]">
 			<ProductsBanner title="Profile">
 				<Breadcrumbs size="lg">
 					<BreadcrumbItem>

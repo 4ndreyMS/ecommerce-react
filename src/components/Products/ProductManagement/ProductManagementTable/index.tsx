@@ -138,12 +138,9 @@ const ProductManagementTable = () => {
 
 					{undefined !== managedProducts &&
 						null !== managedProducts &&
-						managedProducts.map(
-							(product: IProductSpring, i: number) =>
-								!product.deletedStatus && (
-									<ProductItem key={i + "item"} product={product} />
-								)
-						)}
+						managedProducts.map((product: IProductSpring, i: number) => (
+							<ProductItem key={i + "item"} product={product} />
+						))}
 				</>
 			)}
 		</div>
