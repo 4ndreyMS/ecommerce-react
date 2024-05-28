@@ -5,8 +5,49 @@ import { DeleteIcon } from "../../../../assets/deleteIcon";
 import { IProductSpring } from "../../../../models/IProduct";
 import { useRecoilState } from "recoil";
 import { manageProductState } from "../../../../states/manageProductState";
+import { EditIcon } from "../../../../assets/editIcon";
+import axios from "axios";
+import { loginState } from "../../../../states/loginState";
+import toast from "react-hot-toast";
 
 const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
+	const [managedProducts, setManagedProducts] =
+		useRecoilState(manageProductState);
+
+	const [globalUser] = useRecoilState(loginState);
+
+	const handleDelete = async (newProduct: IProductSpring) => {
+		const baseURL = import.meta.env.VITE_BASE_API_URL;
+		const config = {
+			headers: {
+				Authorization: `Bearer ${globalUser.token}`,
+			},
+		};
+
+		axios
+			.delete(baseURL + "/api/v1/product/softDelete/" + newProduct.id, config)
+			.then((response) => {
+				if (response.data.data) {
+					toast.success("Product deleted!", {
+						position: "bottom-center",
+					});
+					setManagedProducts((prevProducts) =>
+						prevProducts.filter((product) => product.id !== newProduct.id)
+					);
+				} else {
+					toast.error("Error deleting the product!", {
+						position: "bottom-center",
+					});
+				}
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				// Handle errors here
+				toast.error("Error deleting the product!", {
+					position: "bottom-center",
+				});
+			});
+	};
 	return (
 		<Card radius="none">
 			<CardBody>
@@ -28,15 +69,27 @@ const ProductItem: React.FC<{ product: IProductSpring }> = ({ product }) => {
 						) : (
 							<Chip color="danger">Inactive</Chip>
 						)}
-						<button
-							className="delete-btn"
-							aria-label="Delete"
-							onClick={() => {
-								// handleDelete(product);
-							}}
-						>
-							<DeleteIcon />
-						</button>
+						<div className="flex gap-4">
+							<button
+								className="delete-btn"
+								aria-label="Delete"
+								onClick={() => {
+									handleDelete(product);
+								}}
+							>
+								<DeleteIcon />
+							</button>
+
+							<button
+								className="delete-btn"
+								aria-label="Delete"
+								onClick={() => {
+									// handleDelete(product);
+								}}
+							>
+								<EditIcon className="text-lg text-default-400 cursor-pointer active:opacity-50" />
+							</button>
+						</div>
 					</div>
 				</div>
 			</CardBody>

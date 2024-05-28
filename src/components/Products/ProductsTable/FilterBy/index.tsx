@@ -105,7 +105,7 @@ const FilterBy = ({
 						<Card radius="none">
 							<CardBody>
 								<CheckboxGroup
-									label="Select cities"
+									label="Select categories"
 									orientation="horizontal"
 									color="secondary"
 									defaultValue={categories}

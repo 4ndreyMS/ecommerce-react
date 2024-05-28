@@ -13,8 +13,11 @@ import { useUserDetails } from "../../service/hooks/useUserDetails";
 import { useOrderManage } from "../../service/hooks/useOrderManage";
 import { IOrder } from "../../models/IOrder";
 import { Key } from "@react-types/shared";
+import OrderDetails from "../OrderDetails";
+import { orderDetailState } from "../../states/orderDetailState";
+import { useRecoilState } from "recoil";
 
-interface tableData {
+export interface tableData {
 	id: number;
 	orderNum: number;
 	total: string;
@@ -26,15 +29,31 @@ interface tableData {
 }
 
 const OrderTable = () => {
-	const [detailOrder, setDetailOrder] = useState<tableData | null>(null);
+	// const [detailOrder, setDetailOrder] = useState<tableData | null>(null);
+	const [detailOrder, setDetailOrder] = useRecoilState(orderDetailState);
 	const { fetchIsAdmin } = useUserDetails();
-	const { getUserOrders } = useOrderManage();
+	const { getUserOrders, getAllOrders } = useOrderManage();
 	const [orders, setOrders] = useState<tableData[]>([]);
 
 	const fetchData = async () => {
 		const isAdmin = await fetchIsAdmin();
 		if (isAdmin) {
 			// Make API request for admin
+			getAllOrders().then((data) => {
+				const tempOrders: tableData[] = [];
+				data.forEach((element: IOrder, i: number) => {
+					tempOrders.push({
+						id: i,
+						orderNum: element.id,
+						total: "$" + element.totalAmount,
+						items: element.totalItemsAmount,
+						status: element.orderStatus,
+						action: "view",
+						purchaseDate: element.creationDate,
+					});
+				});
+				setOrders(tempOrders);
+			});
 		} else {
 			getUserOrders().then((data) => {
 				const tempOrders: tableData[] = [];
@@ -43,7 +62,7 @@ const OrderTable = () => {
 						id: i,
 						orderNum: element.id,
 						total: "$" + element.totalAmount,
-						items: 0,
+						items: element.totalItemsAmount,
 						status: element.orderStatus,
 						action: "view",
 						purchaseDate: element.creationDate,
@@ -55,9 +74,8 @@ const OrderTable = () => {
 		}
 	};
 	useEffect(() => {
-		console.log("executed");
 		fetchData();
-	}, []);
+	}, [[], detailOrder]);
 
 	const columns = [
 		{
@@ -91,9 +109,7 @@ const OrderTable = () => {
 		PENDING: "warning",
 	};
 	const renderCell = React.useCallback((data: tableData, columnKey: Key) => {
-		console.log(data, columnKey);
 		const cellValue = data[columnKey];
-		console.log("cellValue", cellValue);
 
 		switch (columnKey) {
 			case "status":
@@ -120,7 +136,7 @@ const OrderTable = () => {
 						}}
 						size="sm"
 					>
-						view
+						More details
 					</Button>
 				);
 
@@ -128,8 +144,6 @@ const OrderTable = () => {
 				return cellValue;
 		}
 	}, []);
-
-	console.log(orders.length);
 
 	return (
 		<div>
@@ -157,19 +171,7 @@ const OrderTable = () => {
 				</Table>
 			)}
 
-			{null !== detailOrder && (
-				<div>
-					<Button
-						size="sm"
-						onClick={() => {
-							setDetailOrder(null);
-						}}
-					>
-						Back
-					</Button>
-					Selected item {detailOrder.id}
-				</div>
-			)}
+			{null !== detailOrder && <OrderDetails />}
 		</div>
 	);
 };

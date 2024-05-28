@@ -100,7 +100,7 @@ const Nav = () => {
 								/>
 							</Link>
 						</NavbarItem>
-						<NavbarItem>
+						{/* <NavbarItem>
 							<Button
 								color="default"
 								variant="flat"
@@ -113,7 +113,7 @@ const Nav = () => {
 							>
 								Logout
 							</Button>
-						</NavbarItem>
+						</NavbarItem> */}
 					</>
 				) : (
 					<>

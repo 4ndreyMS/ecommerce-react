@@ -32,6 +32,8 @@ const ProductManagement = () => {
 							placeholder="Product name"
 						/>
 						<Button
+							radius="none"
+							className="font-medium bg-brown text-white"
 							onClick={() => {
 								setAddEdit(true);
 							}}
@@ -47,12 +49,13 @@ const ProductManagement = () => {
 					<div className="flex items-center gap-4">
 						<Button
 							radius="none"
+							className="bg-brown text-white"
 							size="sm"
 							onClick={() => {
 								setAddEdit(false);
 							}}
 						>
-							{"<-"}
+							Back
 						</Button>
 						<p>Add product</p>
 					</div>
