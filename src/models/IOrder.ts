@@ -14,6 +14,7 @@ export interface IOrder {
 	taxAmount: number;
 	totalAmount: number;
 	totalWithoutTax: number;
+	creationDate: string;
 	zipCode: string;
 }
 

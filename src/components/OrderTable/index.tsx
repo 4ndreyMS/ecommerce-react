@@ -21,6 +21,7 @@ interface tableData {
 	items: number;
 	status: string;
 	action: string;
+	purchaseDate: string;
 	[key: string]: number | string;
 }
 
@@ -45,6 +46,7 @@ const OrderTable = () => {
 						items: 0,
 						status: element.orderStatus,
 						action: "view",
+						purchaseDate: element.creationDate,
 					});
 				});
 				setOrders(tempOrders);
@@ -60,7 +62,11 @@ const OrderTable = () => {
 	const columns = [
 		{
 			key: "orderNum",
-			label: "Order Number",
+			label: "Order #",
+		},
+		{
+			key: "purchaseDate",
+			label: "Purchase date",
 		},
 		{
 			key: "total",
@@ -93,6 +99,7 @@ const OrderTable = () => {
 			case "status":
 				return (
 					<Chip
+						radius="none"
 						className="text-[black]"
 						color={statusColorMap[data.status]}
 						size="sm"
@@ -106,6 +113,8 @@ const OrderTable = () => {
 			case "action":
 				return (
 					<Button
+						className="button-unfilled"
+						radius="none"
 						onClick={() => {
 							setDetailOrder(data);
 						}}
@@ -125,7 +134,7 @@ const OrderTable = () => {
 	return (
 		<div>
 			{null === detailOrder && (
-				<Table aria-label="Orders table">
+				<Table aria-label="Orders table" radius="none">
 					<TableHeader>
 						{columns.map((column) => (
 							<TableColumn key={column.key}>{column.label}</TableColumn>

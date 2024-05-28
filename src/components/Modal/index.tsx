@@ -34,9 +34,13 @@ const ModalCustom: React.FC<ModalProps> = ({ totalAmount }) => {
 	const storeOrderInfo = () => {
 		const newOrder: IOrderInfo = {
 			id: 0,
-			totalAmount: totalAmount.totalItems,
+			totalAmount:
+				totalAmount.totalPrice +
+				totalAmount.taxPrice +
+				totalAmount.shippingAmount,
 			taxAmount: totalAmount.taxPrice,
 			totalWithoutTax: totalAmount.totalPriceNoTax,
+			totalItemsAmount: totalAmount.totalItems,
 			orderStatus: "PENDING",
 			addres1: checkOutData.addressForm.address1,
 			addres2: checkOutData.addressForm.address2,
@@ -46,6 +50,7 @@ const ModalCustom: React.FC<ModalProps> = ({ totalAmount }) => {
 			cardNumber: checkOutData.cardForm.cardNumber,
 			cardType: checkOutData.cardForm.cardType,
 			expiryDate: checkOutData.cardForm.expiryDate,
+			creationDate: "",
 		};
 		saveOrderItem(newOrder).then((response) => {
 			if (response) {

@@ -12,4 +12,6 @@ export interface IOrderInfo {
 	totalAmount: number;
 	totalWithoutTax: number;
 	taxAmount: number;
+	totalItemsAmount: number;
+	creationDate: string;
 }

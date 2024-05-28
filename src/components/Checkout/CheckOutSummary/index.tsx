@@ -10,6 +10,7 @@ export interface IProductTotal {
 	totalItems: number;
 	totalPriceNoTax: number;
 	taxPrice: number;
+	shippingAmount: number;
 }
 
 const CheckOutSummary = () => {
@@ -19,6 +20,7 @@ const CheckOutSummary = () => {
 		totalPrice: 0,
 		totalPriceNoTax: 0,
 		taxPrice: 0,
+		shippingAmount: 0,
 	});
 
 	const shipping = 10;
@@ -37,6 +39,7 @@ const CheckOutSummary = () => {
 			totalItems: totalItems,
 			totalPriceNoTax: totalPrice + shipping,
 			taxPrice: tax,
+			shippingAmount: shipping,
 		});
 	}, [cartItems]);
 
